@@ -1,0 +1,34 @@
+-- assets
+ Chứa hình ảnh, icon, font dùng trong project.
+
+-- component
+ Các component dùng chung, tái sử dụng.
+ Không gắn chặt với nghiệp vụ.
+ Ví dụ: Header, Footer, Button, Card.
+
+-- feature
+ Chia theo từng chức năng nghiệp vụ.
+ Mỗi feature có UI, logic, state riêng.
+ Phù hợp dự án lớn.
+
+-- hooks
+ Custom hook để tái sử dụng logic.
+ Ví dụ: useFetch, useAuth, useDebounce.
+
+-- layouts
+ Các layout khung giao diện.
+ Dùng kết hợp với React Router.
+
+-- pages
+ Các trang chính tương ứng với route.
+ Mỗi page là một màn hình SPA.
+
+-- services
+ Nơi xử lý gọi API, axios, fetch.
+ Không chứa logic UI.
+
+-- store
+ Quản lý state toàn cục (Redux, Zustand...).
+
+-- utils
+ Các hàm tiện ích thuần JavaScript/TypeScript.
