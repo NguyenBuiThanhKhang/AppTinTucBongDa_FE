@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import MainMenu from './component/MainMenu';
+import HomePage from './component/HomePage';
+import logoBongDa from './assets/logo.png';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <div className="App">
+            <header style={{
+                textAlign: 'center',
+                overflow: 'hidden', /* Cắt bớt phần thừa nếu bị lòi ra ngoài */
+                height: '100px',    /* Ép chiều cao của header cố định là 100px (hoặc số bạn muốn) */
+                display: 'flex',    /* Dùng Flexbox để căn chỉnh */
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <img
+                    src={logoBongDa}
+                    alt="Logo Bongda"
+                    style={{
+                        height: '200px',     /* Phóng to ảnh lên (vì ảnh gốc nhiều khoảng trắng nên phải phóng to mới thấy chữ) */
+                        marginTop: '-50px',  /* Kéo ảnh ngược lên trên để giấu khoảng trắng trên */
+                        // marginBottom không cần thiết nếu header đã set height cố định
+                    }}
+                />
+            </header>
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+            <MainMenu />
+
+            <HomePage />
+
+        </div>
+    );
 }
 
-export default App
+export default App;
