@@ -1,0 +1,67 @@
+
+body{
+  width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+#root{
+  margin: 0;
+}
+.body-newspaper{
+  margin-left: auto;
+  margin-right: auto;
+  width: 90vw;
+  font-size: 1rem;
+}
+.content-newspaper{
+  >div{
+    >p{
+      margin: 0;
+    }
+  }
+}
+.breadcrumb{
+  text-align: left;
+  >p{
+    width: 100%;
+    height: 10vh;
+    font-size: 0.8rem;
+    color: #0022ff;
+  }
+}
+.title{
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  align-content: center;
+}
+.introduction{
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  align-content: center;
+  font-style: italic;
+}
+.blockNewspaper-heading2{
+  text-align: left;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 3rem;
+}
+.blockNewspaper-text{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 1rem;
+}
+.blockNewspaper-img{
+  margin-left: auto;
+  margin-right: auto;
+  width: 60vw;
+  aspect-ratio: 16 / 9;
+  text-align: center;
+  >img{
+    width: 100%;
+    object-fit: cover;
+  }
+}
