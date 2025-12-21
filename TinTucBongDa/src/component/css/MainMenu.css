@@ -1,43 +1,157 @@
-/* src/component/MainMenu.css */
+/*!* src/component/MainMenu.css *!*/
 
-/* 1. Cái khung bao quanh menu */
-.main-menu-wrapper {
-    display: flex;             /* Dàn hàng ngang */
-    align-items: center;       /* Căn giữa theo chiều dọc */
-    justify-content: space-between; /* Đẩy logo và tìm kiếm sang 2 bên */
-    padding: 0 20px;           /* Khoảng cách lề trái phải */
-    background-color: white;   /* Nền trắng */
-    border-bottom: 2px solid #eee; /* Đường kẻ mờ bên dưới */
-    height: 60px;              /* Chiều cao cố định */
+/*!* 1. Cái khung bao quanh menu *!*/
+/*.main-menu-wrapper {*/
+/*    display: flex;             !* Dàn hàng ngang *!*/
+/*    align-items: center;       !* Căn giữa theo chiều dọc *!*/
+/*    justify-content: space-between; !* Đẩy logo và tìm kiếm sang 2 bên *!*/
+/*    padding: 0 20px;           !* Khoảng cách lề trái phải *!*/
+/*    background-color: white;   !* Nền trắng *!*/
+/*    border-bottom: 2px solid #eee; !* Đường kẻ mờ bên dưới *!*/
+/*    height: 60px;              !* Chiều cao cố định *!*/
+/*    font-family: Arial, sans-serif;*/
+/*}*/
+
+/*!* 2. Danh sách các mục menu (ul) *!*/
+/*.main-menu-list {*/
+/*    display: flex;             !* Các mục li nằm ngang *!*/
+/*    list-style: none;          !* Bỏ dấu chấm đầu dòng *!*/
+/*    gap: 25px;                 !* Khoảng cách giữa các chữ *!*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+/*!* 3. Từng mục menu (li > a) *!*/
+/*.menu-item a {*/
+/*    text-decoration: none;     !* Bỏ gạch chân *!*/
+/*    color: #333;               !* Màu chữ đen xám *!*/
+/*    font-weight: bold;         !* Chữ đậm *!*/
+/*    font-size: 14px;*/
+/*    text-transform: uppercase; !* Viết hoa toàn bộ (giống báo bóng đá) *!*/
+/*    transition: color 0.3s;    !* Hiệu ứng đổi màu mượt mà *!*/
+/*}*/
+
+/*!* 4. Khi di chuột vào *!*/
+/*.menu-item a:hover {*/
+/*    color: #d32f2f;            !* Màu đỏ đậm khi hover *!*/
+/*}*/
+
+/*!* 5. Icon ngôi nhà *!*/
+/*.menu-icon-home a {*/
+/*    font-size: 20px;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/* src/component/css/MainMenu.css */
+
+/* --- 1. Thanh Menu Chính --- */
+.main-nav {
+    background-color: #ffffff;
+    border-bottom: 2px solid #e00000; /* Đường kẻ đỏ đặc trưng */
+    border-top: 1px solid #f0f0f0;
     font-family: Arial, sans-serif;
+    height: 50px; /* Chiều cao cố định của thanh menu */
+    position: relative;
+    z-index: 100; /* Đảm bảo menu luôn nổi lên trên nội dung khác */
 }
 
-/* 2. Danh sách các mục menu (ul) */
-.main-menu-list {
-    display: flex;             /* Các mục li nằm ngang */
-    list-style: none;          /* Bỏ dấu chấm đầu dòng */
-    gap: 25px;                 /* Khoảng cách giữa các chữ */
+/* Container để căn giữa nội dung (nếu web bạn dạng box) */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.nav-list {
+    list-style: none;
     margin: 0;
     padding: 0;
+    display: flex; /* Xếp các mục nằm ngang */
+    height: 100%;
+    align-items: center;
 }
 
-/* 3. Từng mục menu (li > a) */
-.menu-item a {
-    text-decoration: none;     /* Bỏ gạch chân */
-    color: #333;               /* Màu chữ đen xám */
-    font-weight: bold;         /* Chữ đậm */
-    font-size: 14px;
-    text-transform: uppercase; /* Viết hoa toàn bộ (giống báo bóng đá) */
-    transition: color 0.3s;    /* Hiệu ứng đổi màu mượt mà */
+/* --- 2. Các Mục Menu (Item) --- */
+.nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: static; /* Quan trọng: Để Mega Menu căn theo chiều rộng web, không căn theo item */
 }
 
-/* 4. Khi di chuột vào */
-.menu-item a:hover {
-    color: #d32f2f;            /* Màu đỏ đậm khi hover */
-}
-
-/* 5. Icon ngôi nhà */
-.menu-icon-home a {
-    font-size: 20px;
+.nav-link {
     text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    white-space: nowrap; /* Không cho chữ xuống dòng */
+}
+
+/* Hiệu ứng khi rê chuột vào Menu cha */
+.nav-item:hover .nav-link {
+    color: #e00000; /* Chữ đổi màu đỏ */
+    background-color: #f9f9f9;
+}
+
+.home-icon a {
+    font-size: 18px;
+    color: #e00000;
+}
+
+/* --- 3. MEGA MENU (Bảng xổ xuống) --- */
+.mega-menu {
+    display: none; /* Mặc định ẩn */
+    position: absolute; /* Trôi nổi */
+    top: 50px; /* Nằm ngay dưới thanh menu (bằng chiều cao nav) */
+    left: 0;
+    width: 100%; /* Rộng full màn hình (hoặc theo container nếu chỉnh left) */
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1); /* Đổ bóng nhẹ */
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    z-index: 999;
+}
+
+/* Khi rê chuột vào item cha -> Hiện mega menu */
+.nav-item:hover .mega-menu {
+    display: block;
+}
+
+/* Danh sách con bên trong */
+.sub-menu-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0 20px;
+
+    /* CHIA CỘT THÔNG MINH (CSS Grid) */
+    /* Tự động chia thành 4 cột, mỗi cột bằng nhau */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; /* Khoảng cách giữa các ô */
+}
+
+.sub-menu-item a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    display: block;
+    padding: 5px 0;
+}
+
+.sub-menu-item a:hover {
+    color: #e00000;
+    transform: translateX(5px); /* Hiệu ứng chữ chạy nhẹ sang phải */
+    transition: transform 0.2s;
+}
+
+/* Thêm thanh dọc ngăn cách giữa các cột menu con (Tùy chọn) */
+.sub-menu-item {
+    border-left: 1px solid transparent;
 }
