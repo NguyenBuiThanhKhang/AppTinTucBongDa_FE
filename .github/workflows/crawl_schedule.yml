@@ -25,4 +25,4 @@ jobs:
       - name: Run Crawler Script
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python Crawler/main.py
+        run: python Crawler/crawler.py
