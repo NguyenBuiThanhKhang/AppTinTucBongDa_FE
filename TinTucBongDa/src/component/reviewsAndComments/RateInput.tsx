@@ -20,7 +20,7 @@ function RateInput() {
             </div>
             <div className="btn-confirm">
                 <p>Bạn đang chọn: {rating} sao</p>
-                <button onClick={() => alert(`Đã đánh giá: ${rating}`)}>Gửi đánh giá</button>
+                <button className={"btn btn-success"} onClick={() => alert(`Đã đánh giá: ${rating}`)}>Gửi đánh giá</button>
             </div>
         </div>
     );
