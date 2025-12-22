@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Import thêm cái này
 import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
 import logoBongDa from './assets/logo.png';
@@ -5,31 +6,43 @@ import './App.css';
 
 function App() {
     return (
-        <div className="App">
-            <header style={{
-                textAlign: 'center',
-                overflow: 'hidden', /* Cắt bớt phần thừa nếu bị lòi ra ngoài */
-                height: '100px',    /* Ép chiều cao của header cố định là 100px (hoặc số bạn muốn) */
-                display: 'flex',    /* Dùng Flexbox để căn chỉnh */
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <img
-                    src={logoBongDa}
-                    alt="Logo Bongda"
-                    style={{
-                        height: '200px',     /* Phóng to ảnh lên (vì ảnh gốc nhiều khoảng trắng nên phải phóng to mới thấy chữ) */
-                        marginTop: '-50px',  /* Kéo ảnh ngược lên trên để giấu khoảng trắng trên */
-                        // marginBottom không cần thiết nếu header đã set height cố định
-                    }}
-                />
-            </header>
+        // QUAN TRỌNG: Phải bọc BrowserRouter ở ngoài cùng
+        <BrowserRouter>
+            <div className="App">
+                <header style={{
+                    textAlign: 'center',
+                    overflow: 'hidden',
+                    height: '100px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#f0f0f0' // Thêm màu nền nhẹ nếu thích
+                }}>
+                    <img
+                        src={logoBongDa}
+                        alt="Logo Bongda"
+                        style={{
+                            height: '180px', // Chỉnh lại chút cho vừa vặn
+                            objectFit: 'contain'
+                        }}
+                    />
+                </header>
 
-            <MainMenu />
+                {/* Menu lấy dữ liệu động từ API */}
+                <MainMenu />
 
-            <HomePage />
+                {/* Phần nội dung chính (Routing) */}
+                <Routes>
+                    {/* Trang chủ */}
+                    <Route path="/" element={<HomePage />} />
 
-        </div>
+                    {/* Trang danh mục (Placeholder để không lỗi khi bấm menu) */}
+                    <Route path="/:slug" element={<div style={{padding: 20}}>Đang phát triển trang danh mục...</div>} />
+                    <Route path="/category/:id/:slug" element={<div style={{padding: 20}}>Đang phát triển trang chi tiết...</div>} />
+                </Routes>
+
+            </div>
+        </BrowserRouter>
     );
 }
 

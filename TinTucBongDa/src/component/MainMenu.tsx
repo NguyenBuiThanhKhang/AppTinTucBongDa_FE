@@ -1,92 +1,90 @@
-// // src/component/MainMenu.tsx
-// import './css/MainMenu.css';
-//
-// // 1. Định nghĩa kiểu dữ liệu cho một mục menu (TypeScript)
-// type MenuItem = {
-//     id: number;
-//     label: string;
-//     link: string;
-// };
-//
-// const MainMenu = () => {
-//     // 2. Tạo danh sách dữ liệu (Sau này có thể lấy từ API)
-//     const menuItems: MenuItem[] = [
-//         { id: 1, label: "Việt Nam", link: "/viet-nam" },
-//         { id: 2, label: "Champions League", link: "/c1" },
-//         { id: 3, label: "Tây Ban Nha", link: "/laliga" },
-//         { id: 4, label: "Đức", link: "/bundesliga" },
-//         { id: 5, label: "Pháp", link: "/ligue1" },
-//         { id: 6, label: "Italia", link: "/serie-a" },
-//         { id: 7, label: "Thế giới", link: "/world" },
-//         { id: 8, label: "Nhận định", link: "/nhan-dinh" },
-//     ];
-//
-//     return (
-//         <nav className="main-menu-wrapper">
-//             <ul className="main-menu-list">
-//                 {/* Mục đầu tiên là Icon Ngôi nhà (Home) */}
-//                 <li className="menu-icon-home">
-//                     <a href="/">🏠</a> {/* Bạn có thể thay bằng icon SVG hoặc hình ảnh */}
-//                 </li>
-//
-//                 {/* 3. Dùng hàm .map() để lặp qua danh sách dữ liệu và tạo thẻ li */}
-//                 {menuItems.map((item) => (
-//                     <li key={item.id} className="menu-item">
-//                         <a href={item.link}>{item.label}</a>
-//                     </li>
-//                 ))}
-//             </ul>
-//
-//             {/* Phần bên phải: Tìm kiếm */}
-//             <div className="menu-right">
-//                 <span className="search-icon">🔍</span>
-//             </div>
-//         </nav>
-//     );
-// };
-//
-// export default MainMenu;
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axiosClient from "../api/axiosClient";
+import "./css/MainMenu.css";
 
-// src/component/MainMenu.tsx
-import React from 'react';
-import { MENU_DATA } from '../constants/menuData'; // Import dữ liệu cứng
-import './css/MainMenu.css'; // Import CSS (Bước 3 sẽ làm)
+// 1. Interface dữ liệu thô từ API (Phẳng)
+interface CategoryRaw {
+    _id: string;
+    name: string;
+    slug: string;
+    parent: string | null;
+}
 
-const MainMenu: React.FC = () => {
+// 2. Interface dữ liệu cây dùng để hiển thị (Lồng nhau)
+interface CategoryTree extends CategoryRaw {
+    children: CategoryTree[];
+}
+
+export default function MainMenu() {
+    const [categories, setCategories] = useState<CategoryTree[]>([]);
+
+    useEffect(() => {
+        // --- CHUYỂN HÀM XỬ LÝ VÀO TRONG USEEFFECT ĐỂ TRÁNH LỖI DEPENDENCY ---
+        const buildCategoryTree = (items: CategoryRaw[]): CategoryTree[] => {
+            const tree: CategoryTree[] = [];
+            const map: { [key: string]: CategoryTree } = {};
+
+            // Bước 1: Tạo map
+            items.forEach(item => {
+                map[item._id] = { ...item, children: [] };
+            });
+
+            // Bước 2: Xếp con vào cha
+            items.forEach(item => {
+                // Kiểm tra item.parent có tồn tại và map[item.parent] có trong danh sách không
+                if (item.parent && map[item.parent]) {
+                    map[item.parent].children.push(map[item._id]);
+                } else {
+                    // Nếu không có cha hoặc cha không tìm thấy -> Nó là gốc
+                    tree.push(map[item._id]);
+                }
+            });
+
+            return tree;
+        };
+
+        const fetchData = async () => {
+            try {
+                // --- SỬA LỖI TYPESCRIPT Ở ĐÂY ---
+                // Ép kiểu về unknown trước để báo TS rằng "Tôi biết tôi đang làm gì với Interceptor"
+                const response = await axiosClient.get('/categories');
+                const rawData = response as unknown as CategoryRaw[];
+
+                // Gọi hàm biến đổi
+                const treeData = buildCategoryTree(rawData);
+                setCategories(treeData);
+            } catch (error) {
+                console.error("Lỗi tải menu:", error);
+            }
+        };
+
+        fetchData();
+    }, []); // Dependency array rỗng là đúng vì logic nằm hết bên trong
+
     return (
-        <nav className="main-nav">
-            <div className="container">
-                <ul className="nav-list">
-                    {/* Nút Trang chủ (Thường là icon ngôi nhà) */}
-                    <li className="nav-item home-icon">
-                        <a href="/">🏠</a>
+        <nav className="menu-container">
+            <ul className="main-menu">
+                <li className="menu-item"><Link to="/">TRANG CHỦ</Link></li>
+
+                {categories.map(cat => (
+                    <li key={cat._id} className="menu-item">
+                        <Link to={`/${cat.slug}`}>{cat.name}</Link>
+
+                        {cat.children.length > 0 && (
+                            <ul className="sub-menu">
+                                {cat.children.map(sub => (
+                                    <li key={sub._id}>
+                                        <Link to={`/${sub.slug}`}>
+                                            {sub.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </li>
-
-                    {/* Dùng hàm map để lặp qua dữ liệu cứng */}
-                    {MENU_DATA.map((item) => (
-                        <li key={item.id} className="nav-item">
-                            <a href={item.link} className="nav-link">
-                                {item.label}
-                            </a>
-
-                            {/* Kiểm tra: Nếu có menu con thì mới vẽ bảng xổ xuống */}
-                            {item.children && item.children.length > 0 && (
-                                <div className="mega-menu">
-                                    <ul className="sub-menu-list">
-                                        {item.children.map((subItem) => (
-                                            <li key={subItem.id} className="sub-menu-item">
-                                                <a href={subItem.link}>{subItem.label}</a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                ))}
+            </ul>
         </nav>
     );
-};
-
-export default MainMenu;
+}
