@@ -14,7 +14,7 @@ const articleSchema = new mongoose.Schema({
     },
     sapo: {
         type: String,
-        required: true // Bắt buộc có mô tả ngắn
+        required: true
     },
     content: {
         type: String,
@@ -26,7 +26,6 @@ const articleSchema = new mongoose.Schema({
     author: {type: String, default: 'Bongdaplus'},
     original_published_at: {type: Date},
 
-    // Quan trọng: Bài viết thuộc về 1 danh mục (thường là danh mục con)
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
@@ -35,9 +34,9 @@ const articleSchema = new mongoose.Schema({
     source_url: {
         type: String,
         unique: true,
-        sparse: true // Cho phép null nếu bài tự viết
+        sparse: true
     },
-    views: { // Đếm lượt xem (Feature nâng cao Phase 5)
+    views: {
         type: Number,
         default: 0
     }

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 import "./css/MainMenu.css";
 
-// 1. Interface dữ liệu thô từ API (Phẳng)
 interface CategoryRaw {
     _id: string;
     name: string;
@@ -11,7 +10,6 @@ interface CategoryRaw {
     parent: string | null;
 }
 
-// 2. Interface dữ liệu cây dùng để hiển thị (Lồng nhau)
 interface CategoryTree extends CategoryRaw {
     children: CategoryTree[];
 }
@@ -20,23 +18,22 @@ export default function MainMenu() {
     const [categories, setCategories] = useState<CategoryTree[]>([]);
 
     useEffect(() => {
-        // --- CHUYỂN HÀM XỬ LÝ VÀO TRONG USEEFFECT ĐỂ TRÁNH LỖI DEPENDENCY ---
+
+        // Biến đổi dữ liệu thành dạng tree
         const buildCategoryTree = (items: CategoryRaw[]): CategoryTree[] => {
             const tree: CategoryTree[] = [];
             const map: { [key: string]: CategoryTree } = {};
 
             // Bước 1: Tạo map
             items.forEach(item => {
-                map[item._id] = { ...item, children: [] };
+                map[item._id] = {...item, children: []};
             });
 
             // Bước 2: Xếp con vào cha
             items.forEach(item => {
-                // Kiểm tra item.parent có tồn tại và map[item.parent] có trong danh sách không
                 if (item.parent && map[item.parent]) {
                     map[item.parent].children.push(map[item._id]);
                 } else {
-                    // Nếu không có cha hoặc cha không tìm thấy -> Nó là gốc
                     tree.push(map[item._id]);
                 }
             });
@@ -44,14 +41,12 @@ export default function MainMenu() {
             return tree;
         };
 
+        // gọi API
         const fetchData = async () => {
             try {
-                // --- SỬA LỖI TYPESCRIPT Ở ĐÂY ---
-                // Ép kiểu về unknown trước để báo TS rằng "Tôi biết tôi đang làm gì với Interceptor"
                 const response = await axiosClient.get('/categories');
                 const rawData = response as unknown as CategoryRaw[];
 
-                // Gọi hàm biến đổi
                 const treeData = buildCategoryTree(rawData);
                 setCategories(treeData);
             } catch (error) {
@@ -60,8 +55,9 @@ export default function MainMenu() {
         };
 
         fetchData();
-    }, []); // Dependency array rỗng là đúng vì logic nằm hết bên trong
+    }, []);
 
+    // render giao diện
     return (
         <nav className="menu-container">
             <ul className="main-menu">

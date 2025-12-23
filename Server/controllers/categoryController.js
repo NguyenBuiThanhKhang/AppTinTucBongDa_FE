@@ -1,8 +1,5 @@
 const Category = require('../models/Category');
 
-// @desc    Lấy tất cả danh mục
-// @route   GET /api/categories
-// @access  Public
 const getAllCategories = async (req, res) => {
     try {
         const categories = await Category.find().lean();
