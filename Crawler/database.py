@@ -10,7 +10,7 @@ client = MongoClient(os.getenv("MONGO_URI"))
 db = client.get_database("SportNewsFE")
 articles_col = db["articles"]
 categories_col = db["categories"]
-
+matches_col = db["matches"]
 # Tạo index để tránh trùng bài
 try:
     articles_col.create_index("source_url", unique=True)
@@ -72,3 +72,58 @@ def save_article_to_db(data):
 
     except Exception as e:
         print(f"❌ Lỗi Database: {e}")
+
+
+try:
+    matches_col.create_index("api_id", unique=True)
+except:
+    pass
+def save_match_to_db(match_data):
+    try:
+        # --- CỐ GẮNG LẤY THÔNG TIN NGƯỜI GHI BÀN (NẾU CÓ) ---
+        # Lưu ý: API Free đôi khi không trả về cái này ở endpoint list
+        goals_data = []
+        if "goals" in match_data:
+            goals_data = match_data["goals"]  # Danh sách ai ghi bàn, phút bao nhiêu
+
+        # --- LẤY TRỌNG TÀI (NẾU CẦN) ---
+        referees = []
+        if "referees" in match_data:
+            referees = [ref.get("name") for ref in match_data["referees"]]
+
+        match_doc = {
+            "api_id": match_data["id"],
+            "competition": match_data["competition"]["name"],
+            "season": match_data["season"]["startDate"][:4],
+            "home_team": {
+                "name": match_data["homeTeam"]["name"],
+                "logo": match_data["homeTeam"].get("crest"),
+                "short_name": match_data["homeTeam"].get("tla")
+            },
+            "away_team": {
+                "name": match_data["awayTeam"]["name"],
+                "logo": match_data["awayTeam"].get("crest"),
+                "short_name": match_data["awayTeam"].get("tla")
+            },
+            "score": {
+                "home": match_data["score"]["fullTime"]["home"],
+                "away": match_data["score"]["fullTime"]["away"]
+            },
+            "match_date": datetime.strptime(match_data["utcDate"], "%Y-%m-%dT%H:%M:%SZ"),
+            "status": match_data["status"],
+
+            # --- THÊM MỚI ---
+            "goals": goals_data,  # Để hiển thị diễn biến ghi bàn
+            "referees": referees,  # Trọng tài bắt chính
+            "updatedAt": datetime.now()
+        }
+
+        matches_col.update_one(
+            {"api_id": match_doc["api_id"]},
+            {"$set": match_doc},
+            upsert=True
+        )
+        print(f"⚽ Đã lưu: {match_doc['home_team']['name']} vs {match_doc['away_team']['name']}")
+
+    except Exception as e:
+        print(f"❌ Lỗi lưu Match: {e}")
