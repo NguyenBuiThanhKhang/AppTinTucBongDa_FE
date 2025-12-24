@@ -1,21 +1,18 @@
-/* Khung bao toàn bộ trang */
 .homepage-container {
-    max-width: 1140px;      /* Độ rộng chuẩn của các web báo chí */
-    margin: 30px auto;      /* Căn giữa màn hình */
-    display: flex;          /* Bật chế độ chia cột */
-    gap: 30px;              /* Khoảng cách giữa cột Trái và cột Phải */
-    font-family: Arial, sans-serif;
+    max-width: 1140px;
+    margin: 30px auto;
+    display: flex;
+    gap: 30px;
+    font-family: 'Merriweather', sans-serif;
     color: #333;
 }
 
-/* --- CỘT TRÁI (Chiếm 68%) --- */
 .left-column {
     flex: 68%;
 }
 
-/* Style cho Bài Nổi Bật */
 .highlight-img {
-    width: 100%;            /* Ảnh giãn full chiều ngang cột */
+    width: 100%;
     height: auto;
     border-radius: 4px;
 }
@@ -24,9 +21,19 @@
     font-size: 24px;
     margin: 10px 0;
     line-height: 1.4;
+    text-align: left;
 }
 
-/* Style chung cho dòng thông tin (Nguồn, giờ) */
+.highlight-title a {
+    color: #333;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.highlight-title a:hover {
+    color: #b71c1c;
+}
+
 .meta-info, .meta-info-small {
     font-size: 13px;
     color: #888;
@@ -35,47 +42,63 @@
     align-items: center;
 }
 
-.source.red { color: #d32f2f; font-weight: bold; } /* Chữ nguồn màu đỏ */
-.source.bold { color: #555; font-weight: bold; }
+.source.red {
+    color: #d32f2f;
+    font-weight: bold;
+}
 
-/* Style cho 3 bài Tin liên quan (nằm hàng ngang) */
+.source.bold {
+    color: #555;
+    font-weight: bold;
+}
+
 .related-news-row {
-    display: flex;          /* Dàn hàng ngang */
+    display: flex;
     gap: 20px;
     margin-top: 30px;
-    border-top: 1px solid #eee; /* Đường kẻ mờ ngăn cách */
+    border-top: 1px solid #eee;
     padding-top: 20px;
 }
 
 .related-item {
-    flex: 1;                /* Chia đều 3 phần bằng nhau */
+    flex: 1;
 }
 
 .related-item img {
     width: 100%;
     border-radius: 4px;
     height: 120px;
-    object-fit: cover;      /* Cắt ảnh vừa khung, không bị méo */
+    object-fit: cover;
 }
 
 .related-item h3 {
     font-size: 16px;
     margin: 8px 0;
     line-height: 1.4;
+    text-align: left;
 }
 
+.related-item h3 a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s;
+}
 
-/* --- CỘT PHẢI (Chiếm 32%) --- */
+.related-item h3 a:hover {
+    color: #b71c1c;
+}
+
 .right-column {
     flex: 32%;
 }
 
 .sidebar-item {
-    display: flex;          /* Dàn ngang: Ảnh trái - Chữ phải */
+    display: flex;
     gap: 15px;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #f0f0f0; /* Gạch chân mờ từng bài */
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .sidebar-img img {
@@ -85,9 +108,53 @@
     border-radius: 4px;
 }
 
+.sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .sidebar-content h4 {
     margin: 0 0 5px 0;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.4;
-    font-weight: normal;    /* Tiêu đề sidebar thường không quá đậm */
+    text-align: left;
+    font-weight: 600;
+}
+
+.sidebar-content h4 a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.sidebar-content h4 a:hover {
+    color: #b71c1c;
+}
+
+.meta-info-small {
+    font-size: 12px;
+    color: #888;
+    text-align: left;
+    display: flex;
+    gap: 10px;
+}
+
+.meta-info-small .source.red {
+    color: #b71c1c;
+    font-weight: bold;
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #b71c1c;
+    text-transform: uppercase;
+    border-bottom: 2px solid #b71c1c;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    text-align: left;
+    letter-spacing: 0.5px;
 }
