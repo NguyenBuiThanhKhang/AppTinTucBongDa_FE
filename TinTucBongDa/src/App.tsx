@@ -3,6 +3,7 @@ import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
 import logoBongDa from './assets/logo.png';
 import './App.css';
+import MatchHistory from "./component/MatchHistory.tsx";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                 </header>
 
                 <MainMenu/>
+                <MatchHistory />
 
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>

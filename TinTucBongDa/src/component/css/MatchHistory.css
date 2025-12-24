@@ -1,0 +1,47 @@
+/* src/component/MatchHistory.css */
+.match-history-container {
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.match-list {
+    display: flex; /* Xếp ngang */
+    gap: 15px;
+    overflow-x: auto; /* Cho phép cuộn ngang nếu nhiều trận */
+    padding-bottom: 10px;
+}
+
+.match-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 250px; /* Chiều rộng cố định để đẹp */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.score-box {
+    text-align: center;
+}
+
+.score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d32f2f; /* Màu đỏ cho nổi */
+    display: block;
+}
+
+.date {
+    font-size: 12px;
+    color: #666;
+}
