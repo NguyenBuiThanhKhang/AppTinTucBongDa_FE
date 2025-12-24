@@ -1,3 +1,4 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
 import logoBongDa from './assets/logo.png';
@@ -5,31 +6,38 @@ import './App.css';
 
 function App() {
     return (
-        <div className="App">
-            <header style={{
-                textAlign: 'center',
-                overflow: 'hidden', /* Cắt bớt phần thừa nếu bị lòi ra ngoài */
-                height: '100px',    /* Ép chiều cao của header cố định là 100px (hoặc số bạn muốn) */
-                display: 'flex',    /* Dùng Flexbox để căn chỉnh */
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <img
-                    src={logoBongDa}
-                    alt="Logo Bongda"
-                    style={{
-                        height: '200px',     /* Phóng to ảnh lên (vì ảnh gốc nhiều khoảng trắng nên phải phóng to mới thấy chữ) */
-                        marginTop: '-50px',  /* Kéo ảnh ngược lên trên để giấu khoảng trắng trên */
-                        // marginBottom không cần thiết nếu header đã set height cố định
-                    }}
-                />
-            </header>
+        <BrowserRouter>
+            <div className="App">
+                <header style={{
+                    textAlign: 'center',
+                    overflow: 'hidden',
+                    height: '100px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <img
+                        src={logoBongDa}
+                        alt="Logo Bongda"
+                        style={{
+                            height: '180px',
+                            objectFit: 'contain'
+                        }}
+                    />
+                </header>
 
-            <MainMenu />
+                <MainMenu/>
 
-            <HomePage />
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
 
-        </div>
+                    <Route path="/:slug" element={<div style={{padding: 20}}>Đang phát triển trang danh mục...</div>}/>
+                    <Route path="/category/:id/:slug"
+                           element={<div style={{padding: 20}}>Đang phát triển trang chi tiết...</div>}/>
+                </Routes>
+
+            </div>
+        </BrowserRouter>
     );
 }
 
