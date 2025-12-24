@@ -1,75 +1,122 @@
+import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import axiosClient from '../api/axiosClient';
 import './css/HomePage.css';
 
+interface Article {
+    _id: string;
+    title: string;
+    slug: string;
+    sapo: string;
+    thumbnail: string;
+    author: string;
+    createdAt: string;
+    category: { name: string; slug: string };
+    source_url?: string;
+}
+
 const HomePage = () => {
-    // 1. Dữ liệu giả cho bài NỔI BẬT NHẤT (Cái to nhất bên trái)
-    const tinNoiBat = {
-        title: "Bảng tổng sắp huy chương SEA Games ngày 16/12: 'Mưa' HCV cho Việt Nam",
-        image: "https://photo-baomoi.bmcdn.me/w700_r1/2023/05/16/24/45814524/1_156845.jpg", // Bạn có thể thay bằng link ảnh thật
-        source: "Vietnamnet",
-        time: "2 giờ",
-        description: "Đoàn thể thao Việt Nam liên tiếp gặt hái huy chương vàng ở các bộ môn võ gậy, cử tạ..."
+    const [articles, setArticles] = useState<Article[]>([]);
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const res = await axiosClient.get('/articles/latest');
+                setArticles(res as unknown as Article[]);
+            } catch (error) {
+                console.error("Lỗi tải bài viết:", error);
+            }
+        };
+
+        fetchArticles();
+    }, []);
+
+    const timeAgo = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+        if (seconds < 60) return "Vừa xong";
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes} phút trước`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} giờ trước`;
+        return `${Math.floor(hours / 24)} ngày trước`;
     };
 
-    // 2. Dữ liệu giả cho 3 bài TIN LIÊN QUAN (Nằm dưới bài nổi bật)
-    const tinLienQuan = [
-        { id: 1, title: "Xuất lộ con đường thiêng ở thánh địa Mỹ Sơn", source: "ZNews", time: "1 giờ", img: "https://via.placeholder.com/300x200" },
-        { id: 2, title: "Kỷ luật cảnh cáo Thứ trưởng và cựu Thứ trưởng", source: "VOV", time: "37 phút", img: "https://via.placeholder.com/300x200" },
-        { id: 3, title: "Điều gì xảy ra khi lưu lượng Internet tăng 19%?", source: "Pháp luật", time: "1 giờ", img: "https://via.placeholder.com/300x200" },
-    ];
-
-    // 3. Dữ liệu giả cho cột TIN MỚI NHẤT (Bên phải)
-    const tinMoiNhat = [
-        { id: 1, title: "Tổng Bí thư Tô Lâm: Hà Nội tập trung vào 5 ưu tiên lớn", source: "Tin Tức", time: "1 giờ" },
-        { id: 2, title: "TP.HCM phê duyệt nhiệm vụ quy hoạch khu đô thị ĐH Quốc gia", source: "Pháp luật", time: "1 phút" },
-        { id: 3, title: "Dựng hiện trường vụ con rể dùng súng bắn vào nhà cha vợ", source: "Pháp luật", time: "4 phút" },
-        { id: 4, title: "Người dân tự nguyện giao nộp 5 con rùa núi vàng quý hiếm", source: "Tin tức", time: "3 phút" },
-        { id: 5, title: "Nguyễn Thị Oanh nói điều bất ngờ khi chạm mốc 15 HCV", source: "VOV", time: "2 phút" },
-    ];
+    const tinNoiBat = articles[0];
+    const tinLienQuan = articles.slice(1, 4);
+    const tinMoiNhat = articles.slice(4);
 
     return (
         <div className="homepage-container">
-
-            {/* --- CỘT TRÁI (Tin chính) --- */}
+            {/* Tin chinh */}
             <div className="left-column">
-                {/* Bài nổi bật (To nhất) */}
-                <div className="highlight-news">
-                    <img src={tinNoiBat.image} alt="Tin hot" className="highlight-img" />
-                    <h1 className="highlight-title">{tinNoiBat.title}</h1>
-                    <div className="meta-info">
-                        <span className="source red">{tinNoiBat.source}</span>
-                        <span className="time">{tinNoiBat.time}</span> • <span>56 liên quan</span>
+                {tinNoiBat && (
+                    <div className="highlight-news">
+                        <Link to={`/bai-viet/${tinNoiBat.slug}`}>
+                            <img
+                                src={tinNoiBat.thumbnail || "https://via.placeholder.com/700x400"}
+                                alt={tinNoiBat.title}
+                                className="highlight-img"
+                                onError={(e) => e.currentTarget.src = "https://via.placeholder.com/700x400"} // Fallback nếu ảnh lỗi
+                            />
+                        </Link>
+                        <h1 className="highlight-title">
+                            <Link to={`/bai-viet/${tinNoiBat.slug}`}>{tinNoiBat.title}</Link>
+                        </h1>
+                        <div className="meta-info">
+                            <span className="source red">{tinNoiBat.author || "Bongdaplus"}</span>
+                            <span className="time">{timeAgo(tinNoiBat.createdAt)}</span>
+                            <p className="sapo-text">{tinNoiBat.sapo}</p>
+                        </div>
                     </div>
-                </div>
-
-                {/* Hàng tin liên quan (3 bài nhỏ bên dưới) */}
+                )}
+                {/* Tin lquan */}
                 <div className="related-news-row">
                     {tinLienQuan.map(item => (
-                        <div key={item.id} className="related-item">
-                            <img src={item.img} alt={item.title} />
-                            <h3>{item.title}</h3>
+                        <div key={item._id} className="related-item">
+                            <Link to={`/bai-viet/${item.slug}`}>
+                                <img
+                                    src={item.thumbnail || "https://via.placeholder.com/300x200"}
+                                    alt={item.title}
+                                />
+                            </Link>
+                            <h3>
+                                <Link to={`/bai-viet/${item.slug}`}>{item.title}</Link>
+                            </h3>
                             <div className="meta-info">
-                                <span className="source bold">{item.source}</span>
-                                <span className="time">{item.time}</span>
+                                <span className="source bold">
+                                    {item.category?.name || "Tin tức"}
+                                </span>
+                                <span className="time">{timeAgo(item.createdAt)}</span>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* --- CỘT PHẢI (Sidebar tin mới) --- */}
+            {/* Tin moi */}
             <div className="right-column">
+                <div className="sidebar-title">TIN MỚI NHẤT</div>
                 {tinMoiNhat.map(item => (
-                    <div key={item.id} className="sidebar-item">
-                        {/* Ảnh nhỏ bên trái */}
+                    <div key={item._id} className="sidebar-item">
                         <div className="sidebar-img">
-                            <img src="https://via.placeholder.com/100x70" alt="thumb" />
+                            <Link to={`/bai-viet/${item.slug}`}>
+                                <img
+                                    src={item.thumbnail || "https://via.placeholder.com/100x70"}
+                                    alt="thumb"
+                                />
+                            </Link>
                         </div>
                         {/* Chữ bên phải */}
                         <div className="sidebar-content">
-                            <h4>{item.title}</h4>
+                            <h4>
+                                <Link to={`/bai-viet/${item.slug}`}>{item.title}</Link>
+                            </h4>
                             <div className="meta-info-small">
-                                <span className="source red">{item.source}</span>
-                                <span className="time">{item.time}</span>
+                                <span className="source red">{item.category?.name}</span>
+                                <span className="time">{timeAgo(item.createdAt)}</span>
                             </div>
                         </div>
                     </div>

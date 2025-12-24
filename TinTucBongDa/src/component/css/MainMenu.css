@@ -1,76 +1,144 @@
-/* Container chính của menu */
 .menu-container {
-    background-color: #b71c1c; /* Màu đỏ Bongdaplus */
+    background-color: #ffffff;
     width: 100%;
-    border-bottom: 3px solid #8e0000;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* Reset danh sách */
-.main-menu, .sub-menu {
+.main-menu {
+    display: flex;
+    flex-wrap: nowrap;
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-/* --- LEVEL 1: MENU CHA --- */
-.main-menu {
-    display: flex; /* Dàn hàng ngang */
-    justify-content: center; /* Căn giữa */
-    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    height: 54px;
 }
 
 .menu-item {
-    position: relative; /* Để định vị menu con */
+    position: relative;
+    flex-shrink: 0;
 }
 
 .menu-item > a {
-    display: block;
-    padding: 12px 18px;
-    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    height: 54px;
+    color: #222;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    transition: background 0.3s;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.2s;
 }
 
 .menu-item:hover > a {
-    background-color: #920e0e; /* Màu đậm hơn khi hover */
+    color: #b71c1c;
 }
 
-/* --- LEVEL 2: MENU CON (Dropdown) --- */
+.home-btn > a {
+    color: #b71c1c;
+    padding-left: 0;
+}
+
 .sub-menu {
-    display: none; /* Mặc định ẩn */
+    display: none;
     position: absolute;
-    top: 100%; /* Hiện ngay dưới cha */
+    top: 100%;
     left: 0;
-    background-color: white;
-    min-width: 200px; /* Chiều rộng tối thiểu */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    z-index: 100; /* Nổi lên trên cùng */
+    background-color: #ffffff;
+    min-width: 200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border-top: 2px solid #b71c1c;
+    padding: 5px 0;
+    z-index: 999;
 }
 
-/* Hiển thị menu con khi hover vào cha */
 .menu-item:hover .sub-menu {
     display: block;
 }
 
-.sub-menu li {
-    border-bottom: 1px solid #eee;
-}
-
 .sub-menu li a {
     display: block;
-    padding: 10px 15px;
-    color: #333; /* Chữ màu đen */
-    text-decoration: none;
-    font-size: 13px;
+    padding: 8px 20px;
+    color: #444;
     font-weight: normal;
-    text-transform: none; /* Không viết hoa tên đội bóng */
+    text-decoration: none;
+    height: auto;
 }
 
 .sub-menu li a:hover {
-    background-color: #f5f5f5;
-    color: #b71c1c; /* Chữ đỏ khi hover */
+    color: #b71c1c;
+    background-color: #f9f9f9;
+    padding-left: 25px;
+}
+
+.search-area {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding-right: 0;
+}
+
+.search-trigger {
+    padding: 0 15px;
+    cursor: pointer;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.search-trigger:hover {
+    color: #b71c1c;
+    transform: scale(1.1);
+}
+
+.search-expandable {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 20px;
+    margin-right: 5px;
+    position: relative;
+}
+
+.search-expandable.active {
+    width: 250px;
+    opacity: 1;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+}
+
+.search-expandable input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.search-close-small {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    padding: 2px;
+}
+
+.search-close-small:hover svg line {
+    stroke: #b71c1c;
 }
