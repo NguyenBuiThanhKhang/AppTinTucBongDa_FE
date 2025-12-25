@@ -1,4 +1,5 @@
 const Article = require('../models/Article');
+const {getContentFromDB} = require("../utils/suport");
 
 const getLatestArticles = async (req, res) => {
     try {
@@ -14,4 +15,50 @@ const getLatestArticles = async (req, res) => {
     }
 };
 
-module.exports = {getLatestArticles};
+const getNewspaperDetails = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const article = await Article.findById(id);
+        if (!article) {
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy bài viết với ID này!'
+            });
+        }
+        // type NewspaperDetailProps ={
+        //     title: string,
+        //     introduction: string,
+        //     content: BlockNewspaper[],
+        //     rate: RatingProps,
+        //     listComment: CommentListProps
+        // }
+        const newspaper={
+            title: article.title,
+            introduction: "",
+            content: getContentFromDB(article.content),
+            rate: {
+                rate: 0,
+            },
+            listComment: {
+                listCmt:[],
+            }
+        }
+        res.status(200).json({
+            success: true,
+            data: newspaper
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Lỗi server hoặc định dạng ID không đúng',
+            error: error.message
+        });
+    }
+}
+
+module.exports = {
+    getLatestArticles,
+    getNewspaperDetails
+};
+
