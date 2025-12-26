@@ -1,7 +1,8 @@
-import RateInput from "../component/reviewsAndComments/RateInput.tsx";
-import Rating, {type RatingProps} from "../component/reviewsAndComments/Evaluation.tsx";
-import RenderListCmt, {type CommentListProps} from "../component/reviewsAndComments/Comment.tsx";
+import RateInput from "./reviewsAndComments/RateInput.tsx";
+import Rating, {type RatingProps} from "./reviewsAndComments/Evaluation.tsx";
+import RenderListCmt, {type CommentListProps} from "./reviewsAndComments/Comment.tsx";
 import LinkOfProject from "../utils/LinkOfProject.tsx";
+import {useEffect} from "react";
 
 export const staticValueND ={
     title: "U22 Việt Nam Lên Ngôi Vô Địch SEA Games 33 Sau Màn Lội Ngược Dòng Lịch Sử",
@@ -116,43 +117,43 @@ type BlockNewspaper ={
     contentBlock: string;
 }
 
-type NewspaperDetailProps ={
+export type NewspaperDetailProps ={
     title: string,
     introduction: string,
     content: BlockNewspaper[],
     rate: RatingProps,
     listComment: CommentListProps
 }
-function renderBlockNewspaper(b:BlockNewspaper){
-    switch (b.type){
-        // Tieu de phu
-        case 1:
-            return (
-                <div className={"blockNewspaper-heading2"} id={"block" + b.numberOrder}
-                     key={b.numberOrder}>
-                    <p>{b.contentBlock}</p>
-                </div>
-            );
-        // Van ban
-        case 2:
-            return (
-                <div className={"blockNewspaper-text"} id={"block" + b.numberOrder}
-                     key={b.numberOrder}>
-                    <p>{b.contentBlock}</p>
-                </div>
-            );
-        //Anh
-        case 3:
-            return (
-                <div className={"blockNewspaper-img"} id={"block" + b.numberOrder}
-                     key={b.numberOrder}>
-                    <img src={b.contentBlock} alt={b.contentBlock}/>
-                </div>
-            );
-    }
-}
 
 function NewspaperDetail({title, introduction, content, rate, listComment}: NewspaperDetailProps) {
+    function renderBlockNewspaper(b:BlockNewspaper){
+        switch (b.type){
+            // Tieu de phu
+            case 1:
+                return (
+                    <div className={"blockNewspaper-heading2"} id={"block" + b.numberOrder}
+                         key={b.numberOrder}>
+                        <p>{b.contentBlock}</p>
+                    </div>
+                );
+            // Van ban
+            case 2:
+                return (
+                    <div className={"blockNewspaper-text"} id={"block" + b.numberOrder}
+                         key={b.numberOrder}>
+                        <p>{b.contentBlock}</p>
+                    </div>
+                );
+            //Anh
+            case 3:
+                return (
+                    <div className={"blockNewspaper-img"} id={"block" + b.numberOrder}
+                         key={b.numberOrder}>
+                        <img src={b.contentBlock} alt={b.contentBlock}/>
+                    </div>
+                );
+        }
+    }
     return (
         <div className="body-newspaper">
             <link rel="stylesheet" href="/src/scss/NewspaperDetail.css"/>

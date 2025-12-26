@@ -4,6 +4,6 @@ const { getLatestArticles, getNewspaperDetails } = require('../controllers/artic
 
 router.get('/latest', getLatestArticles);
 
-router.get('/:id', getNewspaperDetails);
+router.get('/nd/:id', getNewspaperDetails);
 
 module.exports = router;
