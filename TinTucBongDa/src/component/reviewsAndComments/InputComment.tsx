@@ -3,7 +3,7 @@ import axiosClient from "../../api/axiosClient.ts";
 
 function InputComment(){
     const [commentText, setCommentText] = useState('');
-    function sendCmt(){
+    async function  sendCmt()  {
         if(commentText === null){
             return;
         }
