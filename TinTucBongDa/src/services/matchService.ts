@@ -1,8 +1,6 @@
 // src/services/matchService.ts
-// src/services/matchService.ts
 import type {Match} from "../utils/types";
 
-// 1. Dữ liệu giả (Copy y hệt cấu trúc bạn đã test bên Python)
 const MOCK_DATA: Match[] = [
     {
         api_id: 1,
@@ -24,15 +22,60 @@ const MOCK_DATA: Match[] = [
         away_team: { name: "Barcelona", logo: "https://crests.football-data.org/81.png" },
         score: { home: 2, away: 2 }
     },
-    // ... Bạn có thể copy thêm vài trận nữa vào đây
 ];
 
-// 2. Hàm giả lập gọi API
-export const getHistoryMatches = (): Promise<Match[]> => {
-    return new Promise((resolve) => {
-        // Giả vờ đợi 1 giây (1000ms) rồi mới trả dữ liệu
-        setTimeout(() => {
-            resolve(MOCK_DATA);
-        }, 1000);
-    });
+const URL = 'http://localhost:5000/api/matches?limit=10';
+const getData = async (): Promise<Match[]> => {
+    try {
+        const response = await fetch(URL);
+
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+            return data;
+        }
+        if (data && typeof data === 'object') {
+
+            if (Array.isArray(data.data)) {
+                return data.data;
+            }
+            if (Array.isArray(data.matches)) {
+                return data.matches;
+            }
+            if (Array.isArray(data.results)) {
+                return data.results;
+            }
+            if (Array.isArray(data.items)) {
+                return data.items;
+            }
+        }
+
+        throw new Error("API response is not an array");
+    } catch (fetchError) {
+        throw fetchError;
+    }
+};
+
+
+export const getHistoryMatches = async (): Promise<Match[]> => {
+    try {
+        const realData = await getData();
+        if (Array.isArray(realData) && realData.length > 0) {
+            return realData;
+        }
+        return MOCK_DATA;
+
+    } catch (error) {
+        console.warn("Lấy data Mock. Lỗi:", error);
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(MOCK_DATA);
+            }, 500);
+        });
+    }
 };

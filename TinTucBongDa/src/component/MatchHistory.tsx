@@ -1,61 +1,100 @@
-// src/component/MatchHistory.tsx
 import { useEffect, useState } from 'react';
-import { getHistoryMatches } from '../services/matchService'; // Import service giả
-import type {Match} from '../utils/types';
+import { getHistoryMatches } from '../services/matchService';
+import type { Match } from '../utils/types';
 import './css/MatchHistory.css';
 
 const MatchHistory = () => {
     const [matches, setMatches] = useState<Match[]>([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
+        async function fetchData() {
             try {
-                // Gọi hàm giả lập như gọi thật
                 const data = await getHistoryMatches();
-                setMatches(data);
+                if (Array.isArray(data)) {
+                    setMatches(data);
+                } else {
+                    setMatches([]);
+                }
             } catch (error) {
-                console.error("Lỗi:", error);
-            } finally {
-                setLoading(false);
+                console.error(error);
+                setMatches([]);
             }
-        };
+        }
 
         fetchData();
     }, []);
 
-    if (loading) return <div>⏳ Đang tải lịch sử đấu...</div>;
+    function formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return 'N/A';
+        }
+        return date.toLocaleDateString('vi-VN');
+    }
 
     return (
         <div className="match-history-container">
-            <h3>Kết quả thi đấu</h3>
             <div className="match-list">
-                {matches.map((match) => (
-                    <div key={match.api_id} className="match-card">
-                        {/* Đội nhà */}
-                        <div className="team home">
-                            <span>{match.home_team.name}</span>
-                            <img src={match.home_team.logo} alt="home" width="30" />
-                        </div>
+                {matches.map((match) => {
+                    const homeName = match.home_team ? match.home_team.name : 'N/A';
+                    const homeLogo =
+                        match.home_team && match.home_team.logo
+                            ? match.home_team.logo
+                            : 'https://via.placeholder.com/30';
 
-                        {/* Tỷ số */}
-                        <div className="score-box">
-              <span className="score">
-                {match.score.home} - {match.score.away}
-              </span>
-                            <span className="date">
-                 {/* Format ngày tháng */}
-                                {new Date(match.match_date).toLocaleDateString('vi-VN')}
-              </span>
-                        </div>
+                    const awayName = match.away_team ? match.away_team.name : 'N/A';
+                    const awayLogo =
+                        match.away_team && match.away_team.logo
+                            ? match.away_team.logo
+                            : 'https://via.placeholder.com/30';
 
-                        {/* Đội khách */}
-                        <div className="team away">
-                            <img src={match.away_team.logo} alt="away" width="30" />
-                            <span>{match.away_team.name}</span>
+                    const homeScore =
+                        match.score && match.score.home !== undefined
+                            ? match.score.home
+                            : 0;
+
+                    const awayScore =
+                        match.score && match.score.away !== undefined
+                            ? match.score.away
+                            : 0;
+
+                    return (
+                        <div key={match.api_id} className="match-card">
+                            <div className="team home">
+                                <span>{homeName}</span>
+                                <img
+                                    src={homeLogo}
+                                    alt="home"
+                                    width="30"
+                                    onError={(e) => {
+                                        e.currentTarget.src = 'https://via.placeholder.com/30';
+                                    }}
+                                />
+                            </div>
+
+                            <div className="score-box">
+                                <span className="score">
+                                    {homeScore} - {awayScore}
+                                </span>
+                                <span className="date">
+                                    {formatDate(match.match_date)}
+                                </span>
+                            </div>
+
+                            <div className="team away">
+                                <img
+                                    src={awayLogo}
+                                    alt="away"
+                                    width="30"
+                                    onError={(e) => {
+                                        e.currentTarget.src = 'https://via.placeholder.com/30';
+                                    }}
+                                />
+                                <span>{awayName}</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

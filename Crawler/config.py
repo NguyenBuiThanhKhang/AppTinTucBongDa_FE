@@ -27,9 +27,9 @@ FOOTBALL_HEADERS = {
 # 2021: Premier League, 2014: La Liga, 2001: Champions League, etc.
 COMPETITIONS_ID = {
     2021: "Premier League",
-    2014: "La Liga",
-    2001: "UEFA Champions League",
-    2002: "Bundesliga",
-    2019: "Serie A",
-    2015: "Ligue 1"
+    # 2014: "La Liga",
+    # 2001: "UEFA Champions League",
+    # 2002: "Bundesliga",
+    # 2019: "Serie A",
+    # 2015: "Ligue 1"
 }
