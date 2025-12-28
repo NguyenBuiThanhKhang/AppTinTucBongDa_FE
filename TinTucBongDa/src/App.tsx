@@ -1,5 +1,6 @@
 import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
+import MatchHistory from './component/MatchHistory';
 import logoBongDa from './assets/logo.png';
 import './App.css';
 
@@ -27,7 +28,10 @@ function App() {
 
             <MainMenu />
 
-            <HomePage />
+                <MatchHistory />
+
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
 
         </div>
     );
