@@ -25,13 +25,6 @@ const getNewspaperDetails = async (req, res) => {
                 message: 'Không tìm thấy bài viết với ID này!'
             });
         }
-        // type NewspaperDetailProps ={
-        //     title: string,
-        //     introduction: string,
-        //     content: BlockNewspaper[],
-        //     rate: RatingProps,
-        //     listComment: CommentListProps
-        // }
         const newspaper={
             title: article.title,
             introduction: "",

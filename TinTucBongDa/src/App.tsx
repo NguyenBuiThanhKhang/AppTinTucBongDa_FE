@@ -2,6 +2,7 @@ import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
 import logoBongDa from './assets/logo.png';
 import './App.css';
+import AppRouter from "./router/AppRouter.tsx";
 
 function App() {
     return (
@@ -27,7 +28,7 @@ function App() {
 
             <MainMenu />
 
-            <HomePage />
+            <AppRouter />
 
         </div>
     );
