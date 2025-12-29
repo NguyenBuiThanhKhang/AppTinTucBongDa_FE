@@ -9,13 +9,19 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
 
-# Các danh mục muốn cào
-SEED_CATEGORIES = [
-    "bong-da-anh",
-    "bong-da-tay-ban-nha",
-    "champions-league-cup-c1",
-    "bong-da-viet-nam"
-]
+CATEGORY_MAPPING = {
+    "bong-da-anh": "Anh",
+    "bong-da-tay-ban-nha": "Tây Ban Nha",
+    "champions-league-cup-c1": "Champions League",
+    "bong-da-viet-nam": "Việt Nam",
+    "bong-da-phap": "Pháp",
+    "bong-da-the-gioi": "Thế giới",
+    "the-thao": "Thể thao",
+    "bong-da-duc": "Đức",
+    "bong-da-y": "Ý"
+}
+
+SEED_CATEGORIES = list(CATEGORY_MAPPING.keys())
 FOOTBALL_API_KEY = os.getenv("FOOTBALL_DATA_API_KEY")
 FOOTBALL_API_URL = "https://api.football-data.org/v4"
 

@@ -4,7 +4,7 @@ import time
 import random
 
 from config import BASE_URL, HEADERS, SEED_CATEGORIES
-from utils import parse_time, slugify
+from utils import parse_time
 from database import save_article_to_db
 
 def get_article_detail(url, category_default):
@@ -17,23 +17,56 @@ def get_article_detail(url, category_default):
 
         soup = BeautifulSoup(res.text, "html.parser")
 
-        # 1. Lấy Content (Logic An toàn: Thử id cũ và class mới)
+        # --- 1. LOGIC MỚI: ƯU TIÊN META TAG (CHUẨN XÁC NHẤT) ---
+        # Mục tiêu: Lấy chính xác category mà báo đã định nghĩa cho Google đọc
+        real_category_name = None
+
+        # Cách 1: Lấy từ meta property="article:section" (Chuẩn Facebook/SEO)
+        meta_cat = soup.find("meta", property="article:section")
+
+        # Cách 2: Lấy từ meta itemprop="articleSection" (Chuẩn Google Schema)
+        if not meta_cat:
+            meta_cat = soup.find("meta", attrs={"itemprop": "articleSection"})
+
+        if meta_cat and meta_cat.get("content"):
+            real_category_name = meta_cat["content"].strip()
+            # print(f"   -> Detect Cat (Meta): {real_category_name}")
+
+        else:
+            # --- FALLBACK: NẾU KHÔNG CÓ META THÌ MỚI DÙNG BREADCRUMB ---
+            try:
+                # Thử nhiều selector khác nhau
+                breadcrumb = soup.select(".breadcrumb li a")
+                if not breadcrumb: breadcrumb = soup.select(".box-header-of-category a")
+                if not breadcrumb: breadcrumb = soup.select("ul.breadcrumb li a")
+
+                if breadcrumb:
+                    # Lấy phần tử cuối cùng
+                    last_cate = breadcrumb[-1].text.strip()
+                    if last_cate and "Trang chủ" not in last_cate:
+                        real_category_name = last_cate
+                        # print(f"   -> Detect Cat (Breadcrumb): {real_category_name}")
+            except Exception as e:
+                pass
+
+        # -----------------------------------------------------------
+
+        # 2. Lấy Content
         content_div = soup.find("div", id="postContent")
         if not content_div:
             content_div = soup.select_one(".article-body")
 
         if not content_div:
-            return None # Bỏ qua nếu không lấy được nội dung
+            return None
 
-        # Clean rác (Code cũ của bạn rất tốt đoạn này)
+            # Clean rác
         for tag in content_div.find_all(["script", "iframe", "style", "ins", "div", "section"], recursive=True):
-            # Giữ lại div ảnh
             if tag.name == 'div' and tag.find('img'): continue
             tag.decompose()
 
         content_html = content_div.decode_contents()
 
-        # 2. Các thông tin khác
+        # 3. Metadata khác
         title_tag = soup.select_one("h1")
         title = title_tag.text.strip() if title_tag else "No Title"
 
@@ -49,7 +82,6 @@ def get_article_detail(url, category_default):
         time_tag = soup.find("span", class_="time") or soup.find("div", class_="time")
         published_at = parse_time(time_tag.get_text(strip=True)) if time_tag else None
 
-        # Lấy slug từ URL cho chuẩn SEO
         slug_url = url.split("/")[-1].replace(".html", "")
 
         return {
@@ -60,12 +92,13 @@ def get_article_detail(url, category_default):
             "thumbnail": thumbnail,
             "author": author,
             "published_at": published_at,
-            "category_name": category_default, # Dùng tên category từ vòng lặp cha
+            "category_name": real_category_name,
+            "parent_slug": category_default,
             "source_url": url
         }
 
     except Exception as e:
-        print(f"Lỗi chi tiết {url}: {e}")
+        print(f"❌ Lỗi chi tiết {url}: {e}")
         return None
 
 def crawl_category_page(cat_slug):
@@ -76,26 +109,24 @@ def crawl_category_page(cat_slug):
         res = requests.get(full_url, headers=HEADERS)
         soup = BeautifulSoup(res.text, "html.parser")
 
-        # Lấy danh sách link bài viết
-        # Logic: Lấy thẻ a có href chứa .html
         links = set()
         for a in soup.select("a[href$='.html']"):
             href = a.get('href')
-            if href and "bongdaplus.vn" not in href or href.startswith("/"):
+            if href and ("bongdaplus.vn" not in href or href.startswith("/")):
                 links.add(href)
 
         print(f"   -> Tìm thấy {len(links)} bài viết.")
 
         count = 0
-        for link in list(links)[:10]: # Test 10 bài mỗi danh mục
-            detail = get_article_detail(link, cat_slug) # Truyền slug danh mục vào làm tên luôn
+        for link in list(links)[:30]:
+            detail = get_article_detail(link, cat_slug)
             if detail:
                 save_article_to_db(detail)
                 count += 1
-            time.sleep(random.uniform(0.5, 1.5)) # Delay nhẹ
+            time.sleep(random.uniform(0.5, 1.5))
 
     except Exception as e:
-        print(f"Lỗi category {cat_slug}: {e}")
+        print(f"❌ Lỗi category {cat_slug}: {e}")
 
 if __name__ == "__main__":
     for cat in SEED_CATEGORIES:
