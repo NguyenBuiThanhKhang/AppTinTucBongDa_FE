@@ -12,6 +12,7 @@ connectDB();
 
 const categoryRoutes = require('./routes/categoryRoutes');
 const articleRoutes = require('./routes/articleRoutes');
+const matchRoutes = require('./routes/matchRoutes');
 
 // Middleware
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(cors());
 
 app.use('/api/categories', categoryRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/matches', matchRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
