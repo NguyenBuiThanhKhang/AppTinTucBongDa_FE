@@ -4,7 +4,7 @@ from pymongo.errors import DuplicateKeyError
 from dotenv import load_dotenv
 from datetime import datetime
 from utils import slugify
-from config import CATEGORY_MAPPING # Import từ điển tên
+from config import CATEGORY_MAPPING
 
 load_dotenv()
 
@@ -21,56 +21,46 @@ try:
 except:
     pass
 
-# Hàm tạo danh mục (Hỗ trợ cả Cha và Con)
-def get_or_create_category(cat_name, parent_id=None):
+
+def create_category(cat_name, parent_id=None):
     if not cat_name: return None
 
     clean_name = cat_name.strip()
     clean_slug = slugify(clean_name)
 
-    # 1. Tìm xem có chưa
     existing = categories_col.find_one({"slug": clean_slug})
     if existing:
         return existing["_id"]
 
-    # 2. Chưa có thì tạo
     new_cat = {
         "name": clean_name,
         "slug": clean_slug,
-        "parent": parent_id, # <--- QUAN TRỌNG: Lưu ID cha vào đây
+        "parent": parent_id,
         "createdAt": datetime.now(),
         "updatedAt": datetime.now()
     }
     try:
         result = categories_col.insert_one(new_cat)
-        p_text = f" (Con của {parent_id})" if parent_id else " (Gốc)"
-        print(f"--> Tạo Category: {clean_name}{p_text}")
         return result.inserted_id
     except DuplicateKeyError:
         existing_retry = categories_col.find_one({"slug": clean_slug})
         return existing_retry["_id"] if existing_retry else None
 
+
 def save_article_to_db(data):
     try:
-        # --- LOGIC XỬ LÝ CHA CON MỚI ---
-        parent_slug = data.get("parent_slug") # VD: bong-da-phap
-        child_name = data.get("category_name") # VD: VĐQG Pháp
+        parent_slug = data.get("parent_slug")
+        child_name = data.get("category_name")
 
         final_cat_id = None
 
-        # Bước 1: Tìm hoặc Tạo danh mục CHA trước
         parent_name = CATEGORY_MAPPING.get(parent_slug, "Tin tức chung")
-        parent_id = get_or_create_category(parent_name, parent_id=None)
+        parent_id = create_category(parent_name, parent_id=None)
 
-        # Bước 2: Xử lý danh mục CON
-        # Nếu tên con giống hệt tên cha hoặc rỗng -> Bài viết thuộc về cha luôn
         if not child_name or slugify(child_name) == slugify(parent_name):
             final_cat_id = parent_id
         else:
-            # Nếu tên con khác tên cha -> Tạo con và trỏ về cha
-            final_cat_id = get_or_create_category(child_name, parent_id=parent_id)
-
-        # --------------------------------
+            final_cat_id = create_category(child_name, parent_id=parent_id)
 
         update_data = {
             "title": data["title"],
@@ -80,7 +70,7 @@ def save_article_to_db(data):
             "thumbnail": data["thumbnail"],
             "author": data["author"],
             "original_published_at": data["published_at"],
-            "category": final_cat_id, # Lưu ID cuối cùng (Con hoặc Cha)
+            "category": final_cat_id,
             "source_url": data["source_url"],
             "updatedAt": datetime.now()
         }
@@ -100,16 +90,15 @@ def save_article_to_db(data):
             },
             upsert=True
         )
-        print(f"✅ Đã lưu: {data['title']}")
 
     except Exception as e:
         print(f"❌ Lỗi Database: {e}")
 
-# ... (Phần save_match_to_db giữ nguyên như cũ)
 try:
     matches_col.create_index("api_id", unique=True)
 except:
     pass
+
 
 def save_match_to_db(match_data):
     try:
