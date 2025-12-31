@@ -1,18 +1,19 @@
+const Comment = require('../models/Comment');
 const createComment = async (req, res) => {
     try {
-        const { articleId, userId, text } = req.body;
+        const { idArticle, author, content } = req.body;
         const newComment = new Comment({
-            idArticle: articleId,
-            author: userId,
-            content: text.trim()
+            idArticle: idArticle,
+            author: author,
+            content: content.trim(),
+            type: 1
         });
         await newComment.save();
-        res.status(200).json({ message: 'Bình luận đã được tạo thành công', comment: newComment });
+        res.status(200).json({ message: 'Thành công', comment: newComment });
     } catch (error) {
         res.status(500).json({ message: 'Lỗi Server', error: error.message });
     }
 };
-
 module.exports = {
     createComment
 };

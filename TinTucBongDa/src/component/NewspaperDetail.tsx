@@ -3,6 +3,7 @@ import Rating, {type RatingProps} from "./reviewsAndComments/Evaluation.tsx";
 import RenderListCmt, {type CommentListProps} from "./reviewsAndComments/Comment.tsx";
 import LinkOfProject from "../utils/LinkOfProject.tsx";
 import {useEffect} from "react";
+import InputComment from "./reviewsAndComments/InputComment.tsx";
 
 export const staticValueND ={
     title: "U22 Việt Nam Lên Ngôi Vô Địch SEA Games 33 Sau Màn Lội Ngược Dòng Lịch Sử",
@@ -185,6 +186,9 @@ function NewspaperDetail({title, introduction, content, rate, listComment}: News
                 <Rating rate={rate.rate}/>
             </div>
             <div className="comment">
+                <div className="input-cmt">
+                    <InputComment/>
+                </div>
                 <div className="title">
                     Bình luận:
                 </div>
