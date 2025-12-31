@@ -4,8 +4,9 @@ import time
 import random
 
 from config import BASE_URL, HEADERS, SEED_CATEGORIES
-from utils import parse_time, slugify
+from utils import parse_time
 from database import save_article_to_db
+
 
 def get_article_detail(url, category_default):
     try:
@@ -17,23 +18,41 @@ def get_article_detail(url, category_default):
 
         soup = BeautifulSoup(res.text, "html.parser")
 
-        # 1. Lấy Content (Logic An toàn: Thử id cũ và class mới)
+        category_name = None
+
+        child_category = soup.find("meta", property="article:section")
+        if not child_category:
+            child_category = soup.find("meta", attrs={"itemprop": "articleSection"})
+
+        if child_category and child_category.get("content"):
+            category_name = child_category["content"].strip()
+
+        else:
+            try:
+                breadcrumb = soup.select(".breadcrumb li a")
+                if not breadcrumb: breadcrumb = soup.select(".box-header-of-category a")
+                if not breadcrumb: breadcrumb = soup.select("ul.breadcrumb li a")
+
+                if breadcrumb:
+                    last_cate = breadcrumb[-1].text.strip()
+                    if last_cate and "Trang chủ" not in last_cate:
+                        category_name = last_cate
+            except Exception as e:
+                pass
+
         content_div = soup.find("div", id="postContent")
         if not content_div:
             content_div = soup.select_one(".article-body")
 
         if not content_div:
-            return None # Bỏ qua nếu không lấy được nội dung
+            return None
 
-        # Clean rác (Code cũ của bạn rất tốt đoạn này)
         for tag in content_div.find_all(["script", "iframe", "style", "ins", "div", "section"], recursive=True):
-            # Giữ lại div ảnh
             if tag.name == 'div' and tag.find('img'): continue
             tag.decompose()
 
         content_html = content_div.decode_contents()
 
-        # 2. Các thông tin khác
         title_tag = soup.select_one("h1")
         title = title_tag.text.strip() if title_tag else "No Title"
 
@@ -49,7 +68,6 @@ def get_article_detail(url, category_default):
         time_tag = soup.find("span", class_="time") or soup.find("div", class_="time")
         published_at = parse_time(time_tag.get_text(strip=True)) if time_tag else None
 
-        # Lấy slug từ URL cho chuẩn SEO
         slug_url = url.split("/")[-1].replace(".html", "")
 
         return {
@@ -60,7 +78,8 @@ def get_article_detail(url, category_default):
             "thumbnail": thumbnail,
             "author": author,
             "published_at": published_at,
-            "category_name": category_default, # Dùng tên category từ vòng lặp cha
+            "category_name": category_name,
+            "parent_slug": category_default,
             "source_url": url
         }
 
@@ -68,34 +87,29 @@ def get_article_detail(url, category_default):
         print(f"Lỗi chi tiết {url}: {e}")
         return None
 
+
 def crawl_category_page(cat_slug):
     full_url = f"{BASE_URL}/{cat_slug}"
-    print(f"🚀 Đang cào danh mục: {full_url}")
-
     try:
         res = requests.get(full_url, headers=HEADERS)
         soup = BeautifulSoup(res.text, "html.parser")
 
-        # Lấy danh sách link bài viết
-        # Logic: Lấy thẻ a có href chứa .html
         links = set()
         for a in soup.select("a[href$='.html']"):
             href = a.get('href')
-            if href and "bongdaplus.vn" not in href or href.startswith("/"):
+            if href and ("bongdaplus.vn" not in href or href.startswith("/")):
                 links.add(href)
-
-        print(f"   -> Tìm thấy {len(links)} bài viết.")
-
         count = 0
-        for link in list(links)[:10]: # Test 10 bài mỗi danh mục
-            detail = get_article_detail(link, cat_slug) # Truyền slug danh mục vào làm tên luôn
+        for link in list(links)[:50]:
+            detail = get_article_detail(link, cat_slug)
             if detail:
                 save_article_to_db(detail)
                 count += 1
-            time.sleep(random.uniform(0.5, 1.5)) # Delay nhẹ
+            time.sleep(random.uniform(0.5, 1.5))
 
     except Exception as e:
         print(f"Lỗi category {cat_slug}: {e}")
+
 
 if __name__ == "__main__":
     for cat in SEED_CATEGORIES:

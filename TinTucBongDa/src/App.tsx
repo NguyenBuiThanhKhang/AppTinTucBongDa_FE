@@ -3,6 +3,8 @@ import HomePage from './component/HomePage';
 import MatchHistory from './component/MatchHistory';
 import logoBongDa from './assets/logo.png';
 import './App.css';
+import {Route, Routes} from "react-router-dom";
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
     return (
@@ -32,7 +34,8 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
-
+                    <Route path="/:slug" element={<CategoryPage />} />
+                </Routes>
         </div>
     );
 }

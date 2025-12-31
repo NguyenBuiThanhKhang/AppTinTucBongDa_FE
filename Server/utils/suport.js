@@ -1,5 +1,5 @@
 
-export function getContentFromDB(s) {
+const getContentFromDB = (s) => {
     const parser = new DOMParser();
     const d = parser.parseFromString(s, "text/html");
     let blockNews= [];
@@ -26,3 +26,5 @@ export function getContentFromDB(s) {
 
     return blockNews;
 }
+
+module.exports = { getContentFromDB };

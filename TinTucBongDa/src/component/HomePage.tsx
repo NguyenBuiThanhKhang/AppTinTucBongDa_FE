@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import './css/HomePage.css';
+import { timeAgo } from '../utils/dateUtils';
 
 interface Article {
     _id: string;
@@ -30,19 +31,6 @@ const HomePage = () => {
 
         fetchArticles();
     }, []);
-
-    const timeAgo = (dateString: string) => {
-        const date = new Date(dateString);
-        const now = new Date();
-        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-        if (seconds < 60) return "Vừa xong";
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes} phút trước`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours} giờ trước`;
-        return `${Math.floor(hours / 24)} ngày trước`;
-    };
 
     const tinNoiBat = articles[0];
     const tinLienQuan = articles.slice(1, 4);
