@@ -40,7 +40,7 @@ interface CategoryTree extends CategoryRaw {
 
 export default function MainMenu() {
     const [categories, setCategories] = useState<CategoryTree[]>([]);
-    const [showSearch, setShowSearch] = useState(false); // Trạng thái mở rộng ô tìm kiếm
+    const [showSearch, setShowSearch] = useState(false); 
     const [keyword, setKeyword] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
@@ -114,6 +114,12 @@ export default function MainMenu() {
                         )}
                     </li>
                 ))}
+
+                <li className="menu-item">
+                    <Link to="/multimedia" style={{ color: '#d0021b', fontWeight: 'bold' }}>
+                        MULTIMEDIA
+                    </Link>
+                </li>
 
                 {/* search */}
                 <li className="search-area">
