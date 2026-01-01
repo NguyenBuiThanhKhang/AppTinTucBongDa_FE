@@ -3,6 +3,10 @@ name: Auto Crawl Data SportNews
 on:
   schedule:
     - cron: '0 */6 * * *'
+  push:
+    branches:
+      - "main"
+      - "Huy22130099"
   workflow_dispatch:
 
 jobs:
