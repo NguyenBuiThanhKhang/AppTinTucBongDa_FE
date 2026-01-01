@@ -4,7 +4,7 @@ const {getLatestArticles, getArticlesByCategory, getNewspaperDetails} = require(
 
 router.get('/latest', getLatestArticles);
 
-router.get('/nd/:id', getNewspaperDetails);
+router.get('/:slug', getNewspaperDetails);
 
 router.get('/category/:slug', getArticlesByCategory);
 

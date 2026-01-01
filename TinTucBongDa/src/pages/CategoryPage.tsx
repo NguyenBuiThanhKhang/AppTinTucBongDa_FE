@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../scss/CategoryPage.scss';
 import { timeAgo } from '../utils/dateUtils'; 
+import CategorySkeleton from '../component/CategorySkeleton';
 
 export interface Article {
     _id: string;
@@ -23,62 +24,66 @@ export interface CategoryData {
     };
     articles: Article[];
 }
+
 const CategoryPage = () => {
     const { slug } = useParams();
     const [data, setData] = useState<CategoryData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const LIMIT = 13; 
+
+    useEffect(() => {
+        setPage(1);
+    }, [slug]);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!slug) return;
+            
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:5000/api/articles/category/${slug}`);
-                setData(res.data.data);
+                const res = await axios.get(`http://localhost:5000/api/articles/category/${slug}`, {
+                    params: {
+                        page: page,
+                        limit: LIMIT
+                    }
+                });
+
+                if (res.data && res.data.data) {
+                    setData(res.data.data);
+                    
+                    if (res.data.pagination) {
+                        setTotalPages(res.data.pagination.totalPages);
+                    }
+                }
+
             } catch (error) {
                 console.error("Lỗi tải trang:", error);
                 setData(null);
             } finally {
                 setLoading(false);
+                window.scrollTo(0, 0);
             }
         };
 
-        if (slug) fetchData();
-        window.scrollTo(0, 0);
-    }, [slug]);
+        fetchData();
+    }, [slug, page]); 
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
 
     const isSwitchingCategory = data && data.category.slug !== slug;
 
     if (loading || isSwitchingCategory) {
-        return (
-            <div className="container category-page" style={{ marginTop: '20px' }}>
-                <div className="skeleton text-line short" style={{ height: '20px', width: '200px', marginBottom: '10px' }}></div>
-                <div className="skeleton text-line short" style={{ height: '40px', width: '300px', marginBottom: '30px' }}></div>
-
-                <div className="hero-skeleton">
-                    <div className="skeleton hero-skeleton-img"></div>
-                    <div className="hero-skeleton-text">
-                        <div className="skeleton text-line" style={{ height: '30px' }}></div>
-                        <div className="skeleton text-line"></div>
-                        <div className="skeleton text-line"></div>
-                        <div className="skeleton text-line short"></div>
-                    </div>
-                </div>
-
-                <div className="list-grid">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                        <div key={i} className="card-skeleton">
-                            <div className="skeleton card-skeleton-img"></div>
-                            <div className="skeleton text-line"></div>
-                            <div className="skeleton text-line short"></div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
+        return <CategorySkeleton />;
     }
 
     if (!data || data.articles.length === 0) {
-        return <div className="error-state" style={{padding: '20px', textAlign: 'center'}}>Chưa có bài viết nào trong mục này!</div>;
+        return <div className="error-state" style={{padding: '50px', textAlign: 'center', fontSize: '18px'}}>Chưa có bài viết nào trong mục này!</div>;
     }
 
     const heroArticle = data.articles[0];
@@ -87,18 +92,21 @@ const CategoryPage = () => {
     return (
         <div className="container category-page" style={{ marginTop: '20px' }}>
             
+            {/* Breadcrumb */}
             <div className="cat-breadcrumb">
                 <Link to="/">Trang chủ</Link>
                 <span className="sep">»</span>
                 <span>{data.category.name}</span>
             </div>
 
+            {/* Header Danh mục */}
             <div className="cat-header">
                 <h1 className="cat-title">{data.category.name}</h1>
                 <div className="cat-line"></div>
                 <div className="cat-plus-icon">+</div>
             </div>
 
+            {/* Hero Section */}
             {heroArticle && (
                 <div className="hero-section">
                     <div className="hero-image">
@@ -123,6 +131,7 @@ const CategoryPage = () => {
                 </div>
             )}
 
+            {/* Grid List */}
             <div className="list-grid">
                 {listArticles.map((article) => (
                     <div key={article._id} className="article-card">
@@ -145,6 +154,42 @@ const CategoryPage = () => {
                     </div>
                 ))}
             </div>
+
+            {/* PAGINATION */}
+            {totalPages > 1 && (
+                <div className="pagination-container">
+                    <button 
+                        className={`page-btn prev ${page === 1 ? 'disabled' : ''}`}
+                        onClick={() => handlePageChange(page - 1)}
+                        disabled={page === 1}
+                    >
+                        &laquo; Trước
+                    </button>
+
+                    <div className="page-numbers">
+                        {[...Array(totalPages)].map((_, index) => {
+                            const pageNum = index + 1;
+                            return (
+                                <button 
+                                    key={pageNum}
+                                    className={`page-btn number ${page === pageNum ? 'active' : ''}`}
+                                    onClick={() => handlePageChange(pageNum)}
+                                >
+                                    {pageNum}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <button 
+                        className={`page-btn next ${page === totalPages ? 'disabled' : ''}`}
+                        onClick={() => handlePageChange(page + 1)}
+                        disabled={page === totalPages}
+                    >
+                        Sau &raquo;
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
