@@ -1,5 +1,4 @@
-// src/services/matchService.ts
-import type {Match} from "../utils/types";
+import type {Match} from "../utils/typesMatch";
 
 const MOCK_DATA: Match[] = [
     {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getHistoryMatches } from '../services/matchService';
-import type { Match } from '../utils/types';
-import './css/MatchHistory.css';
+import { getHistoryMatches } from '../../services/matchService.ts';
+import type { Match } from '../../utils/typesMatch.ts';
+import '../css/MatchHistory.css';
 
 const MatchHistory = () => {
     const [matches, setMatches] = useState<Match[]>([]);

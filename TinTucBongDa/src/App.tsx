@@ -1,6 +1,7 @@
+import { Routes, Route } from 'react-router-dom';
 import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
-import MatchHistory from './component/MatchHistory';
+import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
 import './App.css';
 
@@ -28,11 +29,11 @@ function App() {
 
             <MainMenu />
 
-                <MatchHistory />
+            <MatchHistory />
 
-                <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-
+            <Routes>
+                <Route path="/" element={<HomePage/>} />
+            </Routes>
         </div>
     );
 }

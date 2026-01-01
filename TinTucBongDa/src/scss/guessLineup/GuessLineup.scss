@@ -1,0 +1,104 @@
+@use './variables' as *;
+@use './FootballPitch';
+@use './PlayerNode';
+@use './PlayerSidebar';
+@use './FormationForm';
+
+.guess-lineup-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: $spacing-xl;
+    background: linear-gradient(135deg, $bg-gray-light 0%, $bg-gray 100%);
+    min-height: 100vh;
+}
+
+.guess-lineup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+    text-align: center;
+    background: $primary-gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.guess-lineup-subtitle {
+    text-align: center;
+    color: $text-secondary;
+    margin-bottom: $spacing-2xl;
+    font-size: 0.95rem;
+}
+
+// Layout chính
+.lineup-main-layout {
+    display: flex;
+    gap: 0;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    background: $bg-white;
+}
+
+.lineup-pitch-wrapper {
+    flex: 1;
+    min-width: 0;
+}
+
+// ============================================
+// RESPONSIVE DESIGN
+// ============================================
+
+@media (max-width: $breakpoint-tablet) {
+    .lineup-main-layout {
+        flex-direction: column;
+    }
+    
+    .player-sidebar-container {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid $border-color;
+        height: 400px;
+    }
+    
+    .pitch-container {
+        height: 500px;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .guess-lineup-container {
+        padding: $spacing-lg;
+    }
+    
+    .guess-lineup-title {
+        font-size: 1.5rem;
+    }
+    
+    .pitch-container {
+        height: 450px;
+        padding: 20px 10px;
+    }
+    
+    .player-node {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .player-name {
+        font-size: 8px;
+        padding: 2px 6px;
+        bottom: -24px;
+    }
+    
+    .formation-inputs {
+        flex-direction: column;
+        gap: $spacing-lg;
+    }
+    
+    .formation-input-group input {
+        width: 100%;
+    }
+}
+
