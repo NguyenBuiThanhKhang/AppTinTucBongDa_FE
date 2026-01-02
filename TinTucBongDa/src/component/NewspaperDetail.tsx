@@ -2,7 +2,6 @@ import RateInput from "./reviewsAndComments/RateInput.tsx";
 import Rating, {type RatingProps} from "./reviewsAndComments/Evaluation.tsx";
 import RenderListCmt, {type CommentListProps} from "./reviewsAndComments/Comment.tsx";
 import LinkOfProject from "../utils/LinkOfProject.tsx";
-import {useEffect} from "react";
 
 export const staticValueND ={
     title: "U22 Việt Nam Lên Ngôi Vô Địch SEA Games 33 Sau Màn Lội Ngược Dòng Lịch Sử",

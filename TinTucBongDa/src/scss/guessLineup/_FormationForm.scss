@@ -1,0 +1,79 @@
+@use './variables' as *;
+
+.formation-form-container {
+  background-color: $bg-white;
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  margin-bottom: 20px;
+}
+
+.formation-form-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: $text-primary;
+}
+
+.formation-inputs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.formation-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formation-input-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.formation-input-group input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.formation-input-group input:focus {
+  outline: none;
+  border-color: $primary-color;
+}
+
+.formation-error {
+  color: $error-color;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.formation-submit-btn {
+  background-color: $primary-color;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.formation-submit-btn:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .formation-inputs {
+    flex-direction: column;
+  }
+
+  .formation-input-group input {
+    width: 100%;
+  }
+}
