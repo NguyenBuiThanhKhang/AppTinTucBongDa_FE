@@ -13,6 +13,8 @@ connectDB();
 const categoryRoutes = require('./routes/categoryRoutes');
 const articleRoutes = require('./routes/articleRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+// const matchRoutes = require('./routes/matchRoutes');
+const videoRoutes = require('./routes/videoRoutes');
 
 // Middleware
 app.use(express.json());
@@ -21,6 +23,8 @@ app.use(cors());
 app.use('/api/categories', categoryRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/comments', commentRoutes);
+// app.use('/api/matches', matchRoutes);
+app.use('/api/videos', videoRoutes);
 
 
 const PORT = process.env.PORT || 5000;
