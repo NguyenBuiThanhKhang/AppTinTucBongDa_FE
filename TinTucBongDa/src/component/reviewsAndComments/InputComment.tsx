@@ -11,8 +11,8 @@ function InputComment(){
         const articleID = localStorage.getItem("articleId")?localStorage.getItem("articleId"):"6953e810d09bb242d4281930";
         try {
             const commentData={
-                idArticle: "6953e810d09bb242d4281930",
-                author: "69553a1208bf5338271fdd02",
+                idArticle: articleID,
+                author: userID,
                 content: commentText
             }
             const response = await axiosClient.post("/comments",commentData)

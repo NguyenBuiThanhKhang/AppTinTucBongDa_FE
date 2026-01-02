@@ -1,4 +1,5 @@
 const Article = require('../models/Article');
+const Comment = require('../models/Comment');
 const {getContentFromDB} = require("../utils/suport");
 
 const getLatestArticles = async (req, res) => {
@@ -19,6 +20,7 @@ const getNewspaperDetails = async (req, res) => {
     try {
         const id = req.params.id;
         const article = await Article.findById(id);
+        const comments = await Comment.find({ idArticle: id }).sort({ createdAt: -1 });
         if (!article) {
             return res.status(404).json({
                 success: false,
@@ -33,7 +35,7 @@ const getNewspaperDetails = async (req, res) => {
                 rate: 0,
             },
             listComment: {
-                listCmt:[],
+                listCmt:comments,
             }
         }
         res.status(200).json({

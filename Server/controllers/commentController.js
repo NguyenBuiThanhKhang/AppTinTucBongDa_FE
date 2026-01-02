@@ -14,6 +14,16 @@ const createComment = async (req, res) => {
         res.status(500).json({ message: 'Lỗi Server', error: error.message });
     }
 };
+const getCommentsByArticleId = async (req, res) => {
+    try {
+        const articleId = req.params.id;
+        const comments = await Comment.find({ idArticle: articleId }).sort({ createdAt: -1 });
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi Server', error: error.message });
+    }
+}
 module.exports = {
-    createComment
+    createComment,
+    getCommentsByArticleId
 };
