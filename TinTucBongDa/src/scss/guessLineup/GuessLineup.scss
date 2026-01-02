@@ -46,10 +46,6 @@
     min-width: 0;
 }
 
-// ============================================
-// RESPONSIVE DESIGN
-// ============================================
-
 @media (max-width: $breakpoint-tablet) {
     .lineup-main-layout {
         flex-direction: column;
