@@ -1,4 +1,5 @@
 const Article = require('../models/Article');
+const Comment = require('../models/Comment');
 const Category = require('../models/Category');
 const {getContentFromDB} = require("../utils/suport");
 
@@ -76,20 +77,14 @@ const getNewspaperDetails = async (req, res) => {
     try {
         const id = req.params.id;
         const article = await Article.findById(id);
+        const comments = await Comment.find({ idArticle: id }).sort({ createdAt: -1 });
         if (!article) {
             return res.status(404).json({
                 success: false,
                 message: 'Không tìm thấy bài viết với ID này!'
             });
         }
-        // type NewspaperDetailProps ={
-        //     title: string,
-        //     introduction: string,
-        //     content: BlockNewspaper[],
-        //     rate: RatingProps,
-        //     listComment: CommentListProps
-        // }
-        const newspaper = {
+        const newspaper={
             title: article.title,
             introduction: "",
             content: getContentFromDB(article.content),
@@ -97,7 +92,8 @@ const getNewspaperDetails = async (req, res) => {
                 rate: 0,
             },
             listComment: {
-                listCmt: [],
+                listCmt:comments,
+
             }
         }
         res.status(200).json({

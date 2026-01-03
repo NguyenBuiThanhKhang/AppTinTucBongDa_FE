@@ -170,4 +170,26 @@ body {
   padding: 10px;
 }
 
+.input-cmt-container {
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+}
+.input-cmt-container > input {
+  width: 100%;
+  margin: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  align-content: center;
+  height: fit-content;
+  border-radius: 5px;
+}
+.input-cmt-container > button {
+  width: 30%;
+  height: 40px;
+  background-color: #0dec06;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
 /*# sourceMappingURL=NewspaperDetail.css.map */

@@ -4,6 +4,7 @@ import HomePage from './component/HomePage';
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
 import './App.css';
+import AppRouter from "./router/AppRouter.tsx";
 import {Route, Routes} from "react-router-dom";
 import CategoryPage from './pages/CategoryPage';
 import MultimediaPage from './pages/MultimediaPage';
@@ -31,7 +32,7 @@ function App() {
 
             <MainMenu />
 
-                <MatchHistory />
+            <AppRouter />
 
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
