@@ -72,6 +72,18 @@ body{
   padding: 50px;
   .rate-input-container{
     width: 100%;
+    text-align: center;
+
+    >.btn-confirm{
+      align-content: center;
+      >button{
+        margin-right: 20px;
+      }
+      >i{
+        font-size: 2rem;
+        color: #8c8c8c;
+      }
+    }
   }
 }
 .input-value{

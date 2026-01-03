@@ -78,6 +78,17 @@ body {
 }
 .evaluation .rate-input-container {
   width: 100%;
+  text-align: center;
+}
+.evaluation .rate-input-container > .btn-confirm {
+  align-content: center;
+}
+.evaluation .rate-input-container > .btn-confirm > button {
+  margin-right: 20px;
+}
+.evaluation .rate-input-container > .btn-confirm > i {
+  font-size: 2rem;
+  color: #8c8c8c;
 }
 
 .input-value {
