@@ -7,14 +7,12 @@ function NewspaperDetailPage() {
     const { id } = useParams();
     const [newsDetail, setNewsDetail] = useState<NewspaperDetailProps | null>(null);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
+        console.log("render....")
         const fetchData = async () => {
             try {
-                const response = await axiosClient.get(`/nd/${id}`);
-                const data = response.data as NewspaperDetailProps;
-
-                setNewsDetail(data);
+                const response = await axiosClient.get(`/articles/nd/${id}`);
+                setNewsDetail(response.data);
             } catch (error) {
                 console.error("Lỗi tải bài báo:", error);
             } finally {
@@ -25,8 +23,8 @@ function NewspaperDetailPage() {
     }, [id]);
 
     if (loading) return <div>Đang tải nội dung...</div>;
-    if (!newsDetail) return <div>Không tìm thấy bài báo!</div>;
-
+    if (!newsDetail) return <div>Không tìm thấy bài báo!</div>
+    console.log(newsDetail);
     return (
         <NewspaperDetail title={newsDetail.title}  introduction={newsDetail.introduction}
             content={newsDetail.content} rate={newsDetail.rate} listComment={newsDetail.listComment}/>

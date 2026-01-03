@@ -1,7 +1,6 @@
 export type CommentProps ={
-    idComment: number,
-    author: string,
-    type: number,
+    _id: string
+    author: string
     content: string
 }
 export type CommentListProps = {
@@ -10,13 +9,14 @@ export type CommentListProps = {
 function RenderListCmt({listCmt}: CommentListProps ){
     return(
         <>
-            {listCmt.map((cmt:CommentProps) => (
-                Comment(cmt)
+            {listCmt.map((cmt) => (
+                <Comment key={cmt._id} {...cmt} />
             ))}
         </>
     )
 }
-function Comment({author, content,type}: CommentProps) {
+function Comment({author, content}: CommentProps) {
+    const type = 1;
     if(type === 1){
         return (
             <div className="comment-block">

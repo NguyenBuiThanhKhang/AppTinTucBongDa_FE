@@ -1,32 +1,31 @@
 const Article = require('../models/Article');
+const Comment = require('../models/Comment');
 const Category = require('../models/Category');
-const { getContentFromDB } = require("../utils/suport");
+const {getContentFromDB} = require("../utils/suport");
 
-// 1. Lấy bài viết mới nhất 
 const getLatestArticles = async (req, res) => {
     try {
         const articles = await Article.find()
-            .sort({ original_published_at: -1, createdAt: -1 }) 
+            .sort({createdAt: -1})
             .limit(10)
             .populate('category', 'name slug')
             .lean();
 
         res.status(200).json(articles);
     } catch (error) {
-        res.status(500).json({ message: 'Lỗi server', error: error.message });
+        res.status(500).json({message: 'Lỗi server', error: error.message});
     }
 };
 
-// 2. Lấy bài viết theo danh mục 
 const getArticlesByCategory = async (req, res) => {
     try {
-        const { slug } = req.params;
+        const {slug} = req.params;
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 13;
         const skip = (page - 1) * limit;
 
         // B1: Tìm danh mục hiện tại
-        const currentCategory = await Category.findOne({ slug: slug });
+        const currentCategory = await Category.findOne({slug: slug});
 
         if (!currentCategory) {
             return res.status(404).json({
@@ -35,91 +34,77 @@ const getArticlesByCategory = async (req, res) => {
             });
         }
 
-        // B2: Tìm danh mục con 
-        const subCategories = await Category.find({ parent: currentCategory._id });
+        // B2: Tìm danh mục con
+        const subCategories = await Category.find({parent: currentCategory._id});
 
-        // B3: Gom ID của mục cha và các mục con vào array
+        // B3: Gom ID vào array
         const listIds = [
             currentCategory._id,
             ...subCategories.map(cat => cat._id)
         ];
 
-        // B4: Query bài viết và Đếm tổng số
-        const [articles, total] = await Promise.all([
-            Article.find({ category: { $in: listIds } })
-                .sort({ original_published_at: -1, createdAt: -1 })
-                .skip(skip)
-                .limit(limit)
-                .populate('category', 'name slug')
-                .lean(), 
-            
-            Article.countDocuments({ category: { $in: listIds } })
-        ]);
+        // B4: Query bài viết
+        const articles = await Article.find({
+            category: {$in: listIds}
+        })
+            .sort({original_published_at: -1})
+            .skip(skip)
+            .limit(limit)
+            .populate('category', 'name slug');
 
-        // B5: Tính tổng số trang
-        const totalPages = Math.ceil(total / limit);
+        const total = await Article.countDocuments({category: {$in: listIds}});
 
         return res.status(200).json({
             success: true,
             data: {
                 category: currentCategory,
                 articles: articles,
-            },
-            pagination: {
-                page,
-                limit,
-                total,
-                totalPages 
+                pagination: {
+                    page,
+                    limit,
+                    total
+                }
             }
         });
 
     } catch (error) {
         console.error("Lỗi Server:", error);
-        return res.status(500).json({ success: false, message: "Lỗi server" });
+        return res.status(500).json({success: false, message: "Lỗi server"});
     }
 };
 
-// 3. Xem chi tiết bài viết
 const getNewspaperDetails = async (req, res) => {
     try {
-        const { slug } = req.params; 
-
-        const article = await Article.findOne({ slug: slug });
-        
+        const id = req.params.id;
+        const article = await Article.findById(id);
+        const comments = await Comment.find({ idArticle: id }).sort({ createdAt: -1 });
         if (!article) {
             return res.status(404).json({
                 success: false,
-                message: 'Không tìm thấy bài viết!'
+                message: 'Không tìm thấy bài viết với ID này!'
             });
         }
-
-        const newspaper = {
-            _id: article._id, 
+        const newspaper={
             title: article.title,
-            slug: article.slug,
-            thumbnail: article.thumbnail,
-            author: article.author,
-            original_published_at: article.original_published_at,
-            introduction: article.sapo || "", 
+            introduction: "",
             content: getContentFromDB(article.content),
             rate: {
-                rate: 5,
+                rate: 0,
             },
             listComment: {
-                listCmt: [],
-            }
-        };
+                listCmt:comments,
 
+            }
+        }
         res.status(200).json({
             success: true,
             data: newspaper
         });
 
     } catch (error) {
-        console.error("Lỗi chi tiết bài viết:", error);
         res.status(500).json({
             success: false,
-            message: 'Lỗi server',
+            message: 'Lỗi server hoặc định dạng ID không đúng',
             error: error.message
         });
     }
@@ -130,3 +115,4 @@ module.exports = {
     getNewspaperDetails,
     getArticlesByCategory
 };
+
