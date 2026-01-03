@@ -56,6 +56,7 @@ def get_article_detail(url, category_default):
         title_tag = soup.select_one("h1")
         title = title_tag.text.strip() if title_tag else "No Title"
 
+        sapo = ""
         sapo_tag = soup.find("div", class_="summary bdr") or soup.find("div", class_="summary")
         if sapo_tag:
             sapo = sapo_tag.get_text(separator=' ', strip=True)

@@ -4,7 +4,6 @@ import HomePage from './component/HomePage';
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
 import './App.css';
-import {Route, Routes} from "react-router-dom";
 import CategoryPage from './pages/CategoryPage';
 import MultimediaPage from './pages/MultimediaPage';
 
