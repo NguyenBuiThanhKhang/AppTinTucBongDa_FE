@@ -1,4 +1,3 @@
-import { Routes, Route } from 'react-router-dom';
 import MainMenu from './component/MainMenu';
 import HomePage from './component/HomePage';
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';

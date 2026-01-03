@@ -3,34 +3,27 @@ const crypto = require('crypto');
 
 function getContentFromDB(htmlString) {
     if (!htmlString) return [];
-    const getContentFromDB = (s) => {
-    const parser = new DOMParser();
-    const d = parser.parseFromString(s, "text/html");
-    let blockNews= [];
 
-    // Tải chuỗi HTML vào cheerio
+    const blockNews = [];
+
     const $ = cheerio.load(htmlString);
-    let blockNews = [];
 
-    // Duyệt qua tất cả các thẻ con trực tiếp của body (hoặc thẻ p)
     $('body').children().each((index, element) => {
         const $el = $(element);
 
-        // Kiểm tra nếu là thẻ P
+        // Hình ảnh
         if (element.name === 'p') {
             const $img = $el.find('img');
 
             if ($img.length > 0) {
-                // Trường hợp có ảnh bên trong thẻ P
                 blockNews.push({
                     numberOrder: index + 1,
                     type: 3,
-                    contentBlock: $img.attr('src') || ""
+                    contentBlock: $img.attr('src') || ''
                 });
             } else {
-                // Trường hợp là văn bản (Type 2)
                 const text = $el.text().trim();
-                if (text !== "") {
+                if (text) {
                     blockNews.push({
                         numberOrder: index + 1,
                         type: 2,
@@ -39,8 +32,8 @@ function getContentFromDB(htmlString) {
                 }
             }
         }
-        // Bạn có thể thêm điều kiện cho thẻ H2, H3 (Type 1) nếu cần
-        else if (element.name.match(/^h[1-6]$/)) {
+        // Heading
+        else if (/^h[1-6]$/.test(element.name)) {
             blockNews.push({
                 numberOrder: index + 1,
                 type: 1,
@@ -51,11 +44,12 @@ function getContentFromDB(htmlString) {
 
     return blockNews;
 }
-function encoding(s){
+
+function encoding(s) {
     return crypto.createHash('sha256').update(s).digest('hex');
 }
 
 module.exports = {
-    getContentFromDB
-    ,encoding
+    getContentFromDB,
+    encoding
 };
