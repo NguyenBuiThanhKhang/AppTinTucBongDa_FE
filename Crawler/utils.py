@@ -9,12 +9,9 @@ def slugify(text):
     return re.sub(r"\s+", "-", text).strip("-")
 
 def parse_time(raw):
-    """Parse time string from Bongdaplus"""
     if not raw: return datetime.now()
     try:
-        # Xử lý các format thường gặp
         clean_raw = raw.replace("ngày", "").strip()
-        # Format ví dụ: 14:00 22-12-2025
         try:
             return datetime.strptime(clean_raw, "%H:%M %d-%m-%Y")
         except:
