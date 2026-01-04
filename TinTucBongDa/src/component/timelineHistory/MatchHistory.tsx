@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getHistoryMatches } from '../../services/matchService.ts';
 import type { Match } from '../../utils/typesMatch.ts';
+import {useNavigate} from 'react-router-dom';
 import '../css/MatchHistory.css';
 
 const MatchHistory = () => {
     const [matches, setMatches] = useState<Match[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -23,7 +25,15 @@ const MatchHistory = () => {
 
         fetchData();
     }, []);
-
+    const handleMatchClick = (match: Match) => {
+        // const status  = match.status === 'FINISHED' ;
+        const status  = false ;
+        if(status) {
+            navigate(`match/detail/${match.api_id}`, { state: { matchData: match } });
+        } else {
+            navigate(`match/predict/${match.api_id}`, { state: { matchData: match } });
+        }
+    }
     function formatDate(dateString: string): string {
         const date = new Date(dateString);
         if (isNaN(date.getTime())) {
@@ -36,45 +46,21 @@ const MatchHistory = () => {
         <div className="match-history-container">
             <div className="match-list">
                 {matches.map((match) => {
-                    const homeName = match.home_team ? match.home_team.name : 'N/A';
-                    const homeLogo =
-                        match.home_team && match.home_team.logo
-                            ? match.home_team.logo
-                            : 'https://via.placeholder.com/30';
-
-                    const awayName = match.away_team ? match.away_team.name : 'N/A';
-                    const awayLogo =
-                        match.away_team && match.away_team.logo
-                            ? match.away_team.logo
-                            : 'https://via.placeholder.com/30';
-
-                    const homeScore =
-                        match.score && match.score.home !== undefined
-                            ? match.score.home
-                            : 0;
-
-                    const awayScore =
-                        match.score && match.score.away !== undefined
-                            ? match.score.away
-                            : 0;
 
                     return (
-                        <div key={match.api_id} className="match-card">
+                        <div key={match.api_id} className="match-card" onClick={() => handleMatchClick(match)}>
                             <div className="team home">
-                                <span>{homeName}</span>
+                                <span>{match.home_team.name}</span>
                                 <img
-                                    src={homeLogo}
+                                    src={match.home_team.logo}
                                     alt="home"
                                     width="30"
-                                    onError={(e) => {
-                                        e.currentTarget.src = 'https://via.placeholder.com/30';
-                                    }}
                                 />
                             </div>
 
                             <div className="score-box">
                                 <span className="score">
-                                    {homeScore} - {awayScore}
+                                    {match.score.home} - {match.score.away}
                                 </span>
                                 <span className="date">
                                     {formatDate(match.match_date)}
@@ -83,14 +69,11 @@ const MatchHistory = () => {
 
                             <div className="team away">
                                 <img
-                                    src={awayLogo}
+                                    src={match.away_team.logo}
                                     alt="away"
                                     width="30"
-                                    onError={(e) => {
-                                        e.currentTarget.src = 'https://via.placeholder.com/30';
-                                    }}
                                 />
-                                <span>{awayName}</span>
+                                <span>{match.away_team.name}</span>
                             </div>
                         </div>
                     );

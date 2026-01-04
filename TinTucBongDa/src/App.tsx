@@ -4,10 +4,9 @@ import HomePage from './component/HomePage';
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
 import './App.css';
-import {Route, Routes} from "react-router-dom";
 import CategoryPage from './pages/CategoryPage';
 import MultimediaPage from './pages/MultimediaPage';
-
+import PredictPage from './pages/PredictPage';
 function App() {
     return (
         <div className="App">
@@ -33,10 +32,14 @@ function App() {
 
                 <MatchHistory />
 
+
                 <Routes>
+
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/:slug" element={<CategoryPage />} />
                     <Route path="/multimedia" element={<MultimediaPage />} />
+                    <Route path="/match/detail/:id"> </Route>
+                    <Route path="/match/predict/:id" element={<PredictPage/>}> </Route>
                 </Routes>
         </div>
     );
