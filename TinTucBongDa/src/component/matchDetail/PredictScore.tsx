@@ -1,9 +1,10 @@
 import type { Match } from '../../utils/typesMatch.ts';
-interface PredictScoreProps {
+import '@/scss/guessPage/PredictScore.scss';
+interface Props {
     match: Match;
 }
 
-const PredictScore = ({ match }: PredictScoreProps) => {
+const PredictScore = ({ match }: Props) => {
     const formatDateTime = (dateString: string) => {
         return new Date(dateString).toLocaleString('vi-VN');
     };

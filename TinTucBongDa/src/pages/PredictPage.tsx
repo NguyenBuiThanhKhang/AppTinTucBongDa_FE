@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import type { Match } from '../utils/typesMatch.ts';
 import PredictScore from '../component/matchDetail/PredictScore';
 import GuessLineup from '../component/guessLineup/GuessLineup';
-
+import '@/scss/guessPage/PredictPage.scss';
 const PredictPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
