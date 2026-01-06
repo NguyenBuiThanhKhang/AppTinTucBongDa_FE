@@ -1,13 +1,28 @@
 import {useState} from "react";
+import axiosClient from "@/api/axiosClient.ts";
 
 function LoginPage(){
     const [username,setUsername]= useState("");
     const [password,setPassword]= useState("");
-    function login(){
-        if(!username || !password){
-            return true;
+    async function login(){
+        const userID = localStorage.getItem("userID");
+
+        if(!username || !password || userID){
+            return false;
         }
-        return false
+        try {
+            const loginData={
+                username:username,
+                password:password
+            }
+            const response = await axiosClient.post("/login",loginData)
+            if(response ===  null) return;
+            localStorage.setItem("userID",response.data.userID);
+            localStorage.setItem("username",username);
+            alert("Đăng nhập thành công")
+        } catch(error){
+            console.log("Lỗi server: "+error);
+        }
     }
     return(
         <div className="login-body">

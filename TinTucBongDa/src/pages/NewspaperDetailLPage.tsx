@@ -7,6 +7,9 @@ function NewspaperDetailPage() {
     const { id } = useParams();
     const [newsDetail, setNewsDetail] = useState<NewspaperDetailProps | null>(null);
     const [loading, setLoading] = useState(true);
+    if(id){
+        localStorage.setItem("articleId",id);
+    }
     useEffect(() => {
         console.log("render....")
         const fetchData = async () => {
