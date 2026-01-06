@@ -2,6 +2,7 @@ import MainMenu from './component/MainMenu';
 import AppRouter from "./router/AppRouter";
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
+import Footer from './component/Footer';
 import './App.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <MainMenu />
 
             <AppRouter />
+            <Footer />
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { timeAgo } from '../utils/dateUtils';
 import '../scss/CategoryPage.scss'; 
+import Pagination from '../component/Pagination'; 
 
 interface Article {
     _id: string;
@@ -59,11 +60,8 @@ const SearchPage = () => {
         fetchSearch();
     }, [keyword, page]);
 
-    // Hàm chuyển trang
     const handlePageChange = (newPage: number) => {
-        if (newPage >= 1 && newPage <= totalPages) {
-            setPage(newPage);
-        }
+        setPage(newPage);
     };
 
     return (
@@ -101,40 +99,11 @@ const SearchPage = () => {
                         )}
                     </div>
 
-                    {totalPages > 1 && (
-                        <div className="pagination-container">
-                            <button 
-                                className={`page-btn prev ${page === 1 ? 'disabled' : ''}`}
-                                onClick={() => handlePageChange(page - 1)}
-                                disabled={page === 1}
-                            >
-                                &laquo; Trước
-                            </button>
-
-                            <div className="page-numbers">
-                                {[...Array(totalPages)].map((_, index) => {
-                                    const pageNum = index + 1;
-                                    return (
-                                        <button 
-                                            key={pageNum}
-                                            className={`page-btn number ${page === pageNum ? 'active' : ''}`}
-                                            onClick={() => handlePageChange(pageNum)}
-                                        >
-                                            {pageNum}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            <button 
-                                className={`page-btn next ${page === totalPages ? 'disabled' : ''}`}
-                                onClick={() => handlePageChange(page + 1)}
-                                disabled={page === totalPages}
-                            >
-                                Sau &raquo;
-                            </button>
-                        </div>
-                    )}
+                    <Pagination 
+                        currentPage={page} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                    />
                 </>
             )}
         </div>
