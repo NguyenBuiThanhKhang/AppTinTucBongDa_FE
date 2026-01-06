@@ -1,0 +1,66 @@
+[33m77eb75d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mHuy22130099[m[33m)[m fix bug in main.py and App.tsx
+[33m8db0589[m Merge branch 'main' into Huy22130099
+[33m83507b9[m feature guess lineup of coming soon match
+[33m735fc79[m[33m ([m[1;31morigin/hung[m[33m)[m delete waste code
+[33m288147b[m delete waste code
+[33mda24fb4[m fix the summary of content
+[33m7a2cf1d[m fix the summary of content
+[33m6649a2c[m Merge branch 'main' into hung
+[33mb4693a9[m Merge pull request #23 from NguyenBuiThanhKhang/Huy22130099
+[33m4d32b42[m feature guess lineup of coming soon match
+[33m338843d[m Multimedia and Multimedia Page
+[33mdb95b3d[m Merge pull request #21 from NguyenBuiThanhKhang/Huy22130099
+[33m4e87447[m category page
+[33m7e7ce3e[m final yml
+[33mb26005c[m final yml
+[33m7388d3d[m fix crawl category name
+[33m2aaa6ac[m code mising of server
+[33m9e72aeb[m commit missing
+[33m619c276[m Merge branch 'main' into Huy22130099
+[33m6ac537f[m fix support.js for Khang
+[33m432829a[m Merge pull request #19 from NguyenBuiThanhKhang/hung
+[33mc224a19[m Merge branch 'main' into hung
+[33md51b96a[m feature timeline of match (schedule)
+[33m11caf55[m Merge branch 'main' into Huy22130099
+[33m8c485f3[m Merge pull request #18 from NguyenBuiThanhKhang/Huy22130099
+[33m3191591[m Merge branch 'main' into Huy22130099
+[33m7615656[m Merge pull request #17 from NguyenBuiThanhKhang/khang114
+[33mf0b9ff9[m daily automation run crawler
+[33m980954f[m router v1
+[33ma55d15b[m cmt v1
+[33m7e1bd9c[m be sever
+[33m16fee27[m fix cònlicts
+[33mbe7febf[m ignore
+[33me4d7c79[m Update .gitignore
+[33m415d749[m time line match history
+[33m23561c9[m add crawler match history
+[33mb8bd02d[m Merge pull request #16 from NguyenBuiThanhKhang/Huy22130099
+[33ma907313[m Main page and fix css of menu
+[33ma459117[m Merge branch 'main' into Huy22130099
+[33m1954d97[m flow code for all dev
+[33m486b46f[m Refactor backend anh categories
+[33m67d53d4[m Finish UI News details
+[33mf62dc08[m Merge pull request #15 from NguyenBuiThanhKhang/Huy22130099
+[33mf418fc0[m Fix Github Action workflow
+[33mffcbd73[m Merge pull request #14 from NguyenBuiThanhKhang/Huy22130099
+[33m157b405[m Setup Github Action workflow
+[33mb7d1f97[m Merge branch 'main' into Huy22130099
+[33md050b06[m First sign Menu
+[33md76f4f0[m Merge pull request #13 from NguyenBuiThanhKhang/Huy22130099
+[33m3ad2b71[m Merge branch 'main' of https://github.com/NguyenBuiThanhKhang/AppTinTucBongDa_FE into khang114
+[33m4cf60fe[m Cmt +rate
+[33mdae264a[m Update NewspaperDetail UI
+[33meb5d029[m Merge branch 'main' into Huy22130099
+[33mee792bc[m delete trash package-lock.json
+[33m90e00ad[m Merge pull request #12 from NguyenBuiThanhKhang/hung
+[33mfb09db4[m Merge branch 'main' into Huy22130099
+[33m21f0b31[m Automation crawler
+[33m8da8b51[m demo homepage
+[33mac75f56[m crawl dữ liệu
+[33m7e88396[m newspaper detail page v1
+[33m0022f8b[m heading basic component
+[33md1413ff[m New python crawler
+[33m3595976[m Init Backend: MongoDB Setup & Python Crawler
+[33mc04738b[m Merge pull request #5 from NguyenBuiThanhKhang/khang114
+[33ma701c67[m Tạo constructor cho du an
+[33m65e4618[m create react

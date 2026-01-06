@@ -6,7 +6,6 @@ function getContentFromDB(htmlString) {
     const getContentFromDB = (s) => {
     const parser = new DOMParser();
     const d = parser.parseFromString(s, "text/html");
-    let blockNews= [];
 
     // Tải chuỗi HTML vào cheerio
     const $ = cheerio.load(htmlString);
@@ -59,3 +58,4 @@ module.exports = {
     getContentFromDB
     ,encoding
 };
+}
