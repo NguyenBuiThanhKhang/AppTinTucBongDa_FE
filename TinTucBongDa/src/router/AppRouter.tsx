@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router-dom';
 import HomePage from "../component/HomePage.tsx";
 import NewspaperDetailPage from "../pages/NewspaperDetailLPage.tsx";
+import LoginPage from "@/pages/LoginPage.tsx";
 
 function AppRouter() {
      return useRoutes([
@@ -12,6 +13,10 @@ function AppRouter() {
             path: '/newspaperDetail/:id',
             element: <NewspaperDetailPage />,
         },
+         {
+             path: "/login",
+             element: <LoginPage/>
+         },
         {
             path: '*',
             element: <div style={{ padding: "20px" }}>Trang không tồn tại (404)</div>,
