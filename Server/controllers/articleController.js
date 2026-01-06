@@ -24,7 +24,6 @@ const getArticlesByCategory = async (req, res) => {
         const limit = parseInt(req.query.limit) || 13;
         const skip = (page - 1) * limit;
 
-        // B1: Tìm danh mục hiện tại
         const currentCategory = await Category.findOne({slug: slug});
 
         if (!currentCategory) {
@@ -34,16 +33,13 @@ const getArticlesByCategory = async (req, res) => {
             });
         }
 
-        // B2: Tìm danh mục con
         const subCategories = await Category.find({parent: currentCategory._id});
 
-        // B3: Gom ID vào array
         const listIds = [
             currentCategory._id,
             ...subCategories.map(cat => cat._id)
         ];
 
-        // B4: Query bài viết
         const articles = await Article.find({
             category: {$in: listIds}
         })
@@ -53,17 +49,19 @@ const getArticlesByCategory = async (req, res) => {
             .populate('category', 'name slug');
 
         const total = await Article.countDocuments({category: {$in: listIds}});
+        const totalPages = Math.ceil(total / limit);
 
         return res.status(200).json({
             success: true,
             data: {
                 category: currentCategory,
                 articles: articles,
-                pagination: {
-                    page,
-                    limit,
-                    total
-                }
+            },
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages
             }
         });
 
@@ -85,6 +83,7 @@ const getNewspaperDetails = async (req, res) => {
             });
         }
         const newspaper={
+            _id: article._id,
             title: article.title,
             introduction: "",
             content: getContentFromDB(article.content),
@@ -93,7 +92,6 @@ const getNewspaperDetails = async (req, res) => {
             },
             listComment: {
                 listCmt:comments,
-
             }
         }
         res.status(200).json({
@@ -110,9 +108,55 @@ const getNewspaperDetails = async (req, res) => {
     }
 }
 
+const searchArticles = async (req, res) => {
+    try {
+        const { keyword } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 12;
+        const skip = (page - 1) * limit;
+
+        if (!keyword) {
+            return res.status(400).json({ success: false, message: "Vui lòng nhập từ khóa" });
+        }
+
+        const query = {
+            $or: [
+                { title: { $regex: keyword, $options: 'i' } },
+                { sapo: { $regex: keyword, $options: 'i' } }
+            ]
+        };
+
+        const [articles, total] = await Promise.all([
+            Article.find(query)
+                .sort({ createdAt: -1 })
+                .skip(skip)   
+                .limit(limit) 
+                .populate('category', 'name slug'), 
+            Article.countDocuments(query)
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+
+        res.status(200).json({
+            success: true,
+            data: articles,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages
+            }
+        });
+
+    } catch (error) {
+        console.error("Lỗi tìm kiếm:", error);
+        res.status(500).json({ success: false, message: "Lỗi server" });
+    }
+};
+
 module.exports = {
     getLatestArticles,
     getNewspaperDetails,
-    getArticlesByCategory
+    getArticlesByCategory, 
+    searchArticles
 };
-

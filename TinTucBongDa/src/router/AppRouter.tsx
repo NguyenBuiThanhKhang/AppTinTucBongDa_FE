@@ -3,6 +3,7 @@ import HomePage from "../component/HomePage.tsx";
 import NewspaperDetailPage from "../pages/NewspaperDetailLPage.tsx";
 import MultimediaPage from "../pages/MultimediaPage.tsx";
 import CategoryPage from "../pages/CategoryPage.tsx";
+import SearchPage from "../pages/SearchPage.tsx";
 
 function AppRouter() {
      return useRoutes([
@@ -17,6 +18,10 @@ function AppRouter() {
         {
             path: '/multimedia',
             element: <MultimediaPage />,
+        },
+        {
+            path: '/search',
+            element: <SearchPage />,
         },
         {
             path: '/:slug', 
