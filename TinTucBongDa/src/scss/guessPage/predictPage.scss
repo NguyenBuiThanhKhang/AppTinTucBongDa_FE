@@ -1,0 +1,78 @@
+$primary-color: #667eea;
+$accent-color: #e74c3c;
+$bg-color: #f5f7fa;
+$card-bg: #ffffff;
+$text-color: #333;
+$radius: 8px;
+
+.predict-page-wrapper {
+  min-height: 100vh;
+  padding: 24px;
+  background: $bg-color;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+
+    h1 {
+      font-size: 2rem;
+      color: $primary-color;
+      margin-bottom: 8px;
+    }
+
+    .match-info {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $text-color;
+
+      .vs {
+        margin: 0 8px;
+        color: $accent-color;
+      }
+    }
+  }
+
+  .main-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .section-container {
+    background: $card-bg;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: $radius;
+    border: 1px solid #eaeaea;
+
+    .section-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: $primary-color;
+    }
+  }
+}
+
+.error-container {
+  text-align: center;
+  padding-top: 60px;
+
+  p {
+    font-size: 1.1rem;
+    color: $text-color;
+    margin-bottom: 16px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: darken($primary-color, 8%);
+    }
+  }
+}
