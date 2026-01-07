@@ -23,7 +23,6 @@ function LoginPage(){
                 return
             };
             const userID = response.data.userID;
-            setStatusLogin(JSON.stringify(response))
             if(!userID){
                 return;
             }

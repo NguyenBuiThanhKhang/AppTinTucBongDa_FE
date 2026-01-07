@@ -1,4 +1,4 @@
-const User = require("../models/users");
+const User = require("../models/Users");
 const {encoding} = require("../utils/suport");
 
 const login = async (req, res) => {
@@ -32,8 +32,17 @@ const register = async (req, res) => {
             username: username,
             password: encoding(password),
         });
+        const userCheck = await User.findOne({ username: username});
+        if(userCheck){
+            return  res.status(400).json({ message: 'Tài khoản đã tồn tại'});
+        }
         await newUser.save();
-        res.status(200).json({ message: 'Thành công', user: newUser });
+        const user = await User.findOne({ username: username, password: encoding(password)});
+        const userResponse ={
+            userID : user?._id,
+            username : user?.username
+        }
+        res.status(200).json({ message: 'Thành công', data: userResponse });
     } catch (error) {
         res.status(500).json({ message: 'Lỗi Server', error: error.message });
     }
