@@ -65,7 +65,7 @@ const SpecialNews = () => {
                     <span className="line"></span>
                     <h2 className="header-title">ĐẶC BIỆT</h2>
                     <span className="line"></span>
-                    <Link to="/dac-biet" className="plus-icon">+</Link>
+                    <div className="plus-icon">+</div>
                 </div>
 
                 {loading ? (
