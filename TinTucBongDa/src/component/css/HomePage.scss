@@ -3,12 +3,24 @@
     margin: 30px auto;
     display: flex;
     gap: 30px;
-    font-family: 'Merriweather', sans-serif;
+    font-family: Merriweather, sans-serif;
     color: #333;
+    padding: 0 15px;
+
+    &.bottom-section {
+        margin-top: 40px;
+        padding-bottom: 50px;
+    }
 }
 
 .left-column {
     flex: 68%;
+    max-width: 68%; 
+}
+
+.right-column {
+    flex: 32%;
+    max-width: 32%;
 }
 
 .highlight-img {
@@ -28,6 +40,7 @@
     color: #333;
     font-weight: 700;
     transition: color 0.2s;
+    text-decoration: none;
 }
 
 .highlight-title a:hover {
@@ -89,10 +102,6 @@
     color: #b71c1c;
 }
 
-.right-column {
-    flex: 32%;
-}
-
 .sidebar-item {
     display: flex;
     gap: 15px;
@@ -134,19 +143,6 @@
     color: #b71c1c;
 }
 
-.meta-info-small {
-    font-size: 12px;
-    color: #888;
-    text-align: left;
-    display: flex;
-    gap: 10px;
-}
-
-.meta-info-small .source.red {
-    color: #b71c1c;
-    font-weight: bold;
-}
-
 .sidebar-title {
     font-size: 20px;
     font-weight: 800;
@@ -159,34 +155,14 @@
     letter-spacing: 0.5px;
 }
 
-.bottom-area-container {
-    max-width: 1200px;
-    margin: 0 auto;   
-    padding: 0 15px;  
-    display: flex;
-    justify-content: flex-end; 
-    margin-top: 30px; 
-    padding-bottom: 50px;
-}
-
-.bottom-right-sidebar {
-    width: 30%; 
-    min-width: 300px;
-    flex: 32%;
-}
-.bottom-left-content {
-    flex: 68%; /* Chiếm toàn bộ không gian còn lại */
-    /* Nếu muốn cột trái chiếm khoảng 70-75% */
-    width: 70%; 
-}
-
-@media (max-width: 768px) {
-    .bottom-area-container {
-        justify-content: center;
+@media (max-width: 992px) {
+    .homepage-container {
+        flex-direction: column;
     }
 
-    .bottom-left-content,
-    .bottom-right-sidebar {
-        width: 100%;
+    .left-column,
+    .right-column {
+        flex: 100%;
+        max-width: 100%;
     }
 }

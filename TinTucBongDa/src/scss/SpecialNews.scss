@@ -1,0 +1,215 @@
+/* src/component/scss/SpecialNews.scss */
+
+.special-news-section {
+    background-color: #fff;
+    width: 100%;
+    margin-top: 0;
+    
+    .special-container {
+        width: 100%; 
+        margin: 0;
+        padding: 0;
+    }
+
+    // --- Header (Giữ nguyên) ---
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        position: relative;
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #333;
+            margin: 0 15px;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .line {
+            flex: 1;
+            height: 1px;
+            background-color: #e0e0e0;
+        }
+
+        .plus-icon {
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #d0021b;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+
+            &:hover {
+                background-color: #d0021b;
+                color: #fff;
+                border-color: #d0021b;
+            }
+        }
+    }
+
+    // --- CAROUSEL WRAPPER (Mới) ---
+    .carousel-wrapper {
+        position: relative; /* Để căn vị trí nút absolute theo khung này */
+    }
+
+    // --- Grid Layout ---
+    .special-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    // --- Navigation Buttons (Mới) ---
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%); /* Căn giữa theo chiều dọc */
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background-color: #fff; /* Nền trắng */
+        color: #d0021b; /* Mũi tên đỏ */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        cursor: pointer;
+        z-index: 10;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        /* Icon mũi tên */
+        i {
+            line-height: 1;
+        }
+
+        &:hover {
+            background-color: #d0021b; /* Hover: Nền đỏ */
+            color: #fff; /* Mũi tên trắng */
+        }
+    }
+
+    .prev-btn {
+        left: -20px; /* Nhô ra bên trái */
+    }
+
+    .next-btn {
+        right: -20px; /* Nhô ra bên phải */
+    }
+
+    // --- Card Style (Giữ nguyên) ---
+    .special-card {
+        background-color: #000;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        height: 100%; 
+        display: flex;
+        flex-direction: column;
+
+        /* Hiệu ứng Fade in khi chuyển slide */
+        &.fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-image {
+            position: relative;
+            padding-top: 66.66%;
+            width: 100%;
+            overflow: hidden;
+
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: opacity 0.3s;
+            }
+
+            .tag-label {
+                position: absolute;
+                bottom: 8px;
+                left: 8px;
+                background-color: #d0021b;
+                color: #fff;
+                font-size: 9px;
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: 3px 6px;
+                border-radius: 2px;
+                z-index: 2;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        .card-content {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-start;
+
+            .card-title {
+                font-size: 14px;
+                line-height: 1.4;
+                font-weight: bold;
+                color: #fff;
+                margin: 0;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+        }
+    }
+
+    // Keyframes cho hiệu ứng fade
+    @keyframes fadeIn {
+        from { opacity: 0.7; }
+        to { opacity: 1; }
+    }
+
+    // --- Responsive ---
+    @media (max-width: 1200px) {
+        .special-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .special-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Mobile đẩy nút vào trong để không bị che */
+        .prev-btn { left: -10px; }
+        .next-btn { right: -10px; }
+    }
+}

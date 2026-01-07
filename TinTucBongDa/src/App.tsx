@@ -1,13 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
 import MainMenu from './component/MainMenu';
-import HomePage from './component/HomePage';
+import AppRouter from "./router/AppRouter";
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
+import Footer from './component/Footer';
 import './App.css';
-import AppRouter from "./router/AppRouter.tsx";
-import {Route, Routes} from "react-router-dom";
-import CategoryPage from './pages/CategoryPage';
-import MultimediaPage from './pages/MultimediaPage';
 
 function App() {
     return (
@@ -33,12 +29,7 @@ function App() {
             <MainMenu />
 
             <AppRouter />
-
-                <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/:slug" element={<CategoryPage />} />
-                    <Route path="/multimedia" element={<MultimediaPage />} />
-                </Routes>
+            <Footer />
         </div>
     );
 }
