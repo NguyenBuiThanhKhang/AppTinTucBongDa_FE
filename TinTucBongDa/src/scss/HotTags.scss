@@ -1,0 +1,57 @@
+.hot-tags-container {
+  background: #fff;
+  margin-bottom: 30px;
+  font-family: Merriweather, sans-serif;
+
+  .tags-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+
+    .hash-icon {
+      background-color: #f0f0f0;
+      color: #555;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+      margin: 0;
+      text-transform: none;
+    }
+  }
+
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .tag-item {
+      background-color: #f2f2f2;
+      color: #333;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: #e0e0e0;
+        color: #000;
+      }
+    }
+  }
+}

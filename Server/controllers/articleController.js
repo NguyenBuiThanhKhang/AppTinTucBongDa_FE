@@ -154,9 +154,37 @@ const searchArticles = async (req, res) => {
     }
 };
 
+const getSpecialArticles = async (req, res) => {
+    try {
+        const articles = await Article.aggregate([
+            { $sample: { size: 8 } } 
+        ]);
+
+        await Article.populate(articles, { path: 'category', select: 'name slug' });
+
+        const formattedArticles = articles.map(art => ({
+            _id: art._id,
+            title: art.title,
+            slug: art.slug,
+            thumbnail: art.thumbnail,
+            tag: Math.random() > 0.5 ? "BIG STORY" : "HOT NEWS" 
+        }));
+
+        res.status(200).json({
+            success: true,
+            data: formattedArticles
+        });
+
+    } catch (error) {
+        console.error("Lỗi lấy bài đặc biệt:", error);
+        res.status(500).json({ success: false, message: "Lỗi server" });
+    }
+};
+
 module.exports = {
     getLatestArticles,
     getNewspaperDetails,
     getArticlesByCategory, 
+    getSpecialArticles,
     searchArticles
 };
