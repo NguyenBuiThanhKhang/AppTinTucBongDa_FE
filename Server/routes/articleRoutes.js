@@ -10,6 +10,6 @@ router.get('/search', searchArticles);
 
 router.get('/special', getSpecialArticles);
 
-router.get('/:slug', getNewspaperDetails);
+router.get('/nd/:id', getNewspaperDetails);
 
 module.exports = router;
