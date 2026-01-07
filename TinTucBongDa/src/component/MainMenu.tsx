@@ -40,12 +40,11 @@ interface CategoryTree extends CategoryRaw {
 
 export default function MainMenu() {
     const [categories, setCategories] = useState<CategoryTree[]>([]);
-    const [showSearch, setShowSearch] = useState(false); 
+    const [showSearch, setShowSearch] = useState(false);
     const [keyword, setKeyword] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
-    {/* format category */}
     const formatName = (slugOrName: string) => {
         if (!slugOrName) return "";
         if (slugOrName.includes(' ') || /[áàảãạăắằẳẵặ.]/.test(slugOrName)) {
@@ -90,8 +89,9 @@ export default function MainMenu() {
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (keyword.trim()) {
-            navigate(`/tim-kiem?q=${keyword}`);
+            navigate(`/search?keyword=${encodeURIComponent(keyword)}`);
             setShowSearch(false);
+            setKeyword("");
         }
     };
 
@@ -121,7 +121,6 @@ export default function MainMenu() {
                     </Link>
                 </li>
 
-                {/* search */}
                 <li className="search-area">
                     <form
                         className={`search-expandable ${showSearch ? "active" : ""}`}

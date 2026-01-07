@@ -1,12 +1,14 @@
-import { Routes, Route } from 'react-router-dom';
 import MainMenu from './component/MainMenu';
-import HomePage from './component/HomePage';
+import AppRouter from "./router/AppRouter";
 import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
+import Footer from './component/Footer';
 import './App.css';
+
 import CategoryPage from './pages/CategoryPage';
 import MultimediaPage from './pages/MultimediaPage';
 import PredictPage from './pages/PredictPage';
+
 function App() {
     return (
         <div className="App">
@@ -30,6 +32,7 @@ function App() {
 
             <MainMenu />
 
+
                 <MatchHistory />
 
 
@@ -41,6 +44,7 @@ function App() {
                     <Route path="/match/detail/:id"> </Route>
                     <Route path="/match/predict/:id" element={<PredictPage/>}> </Route>
                 </Routes>
+
         </div>
     );
 }
