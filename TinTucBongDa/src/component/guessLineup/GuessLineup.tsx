@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import type {FormLineUp, LineupState, Player, SlotID} from '../utils/typesLineup';
-import { FootballPitch } from '../component/guessLineup/FootballPitch';
-import { FormationForm } from '../component/guessLineup/FormationForm';
-import { PlayerSidebar } from '../component/guessLineup/PlayerSidebar';
+import type { Match } from '../../utils/typesMatch.ts';
+import type { FormLineUp, LineupState, Player, SlotID } from '../../utils/typesLineup.ts';
+import { FootballPitch } from './FootballPitch.tsx';
+import { FormationForm } from './FormationForm.tsx';
+import { PlayerSidebar } from './PlayerSidebar.tsx';
 import '@/scss/guessLineup/GuessLineup.scss';
 
-const GuessLineup = () => {
+interface GuessLineupProps {
+    match: Match;
+}
+const GuessLineup = ({ match }: GuessLineupProps) => {
     const [config, setConfig] = useState<FormLineUp>({ DF: 4, MF: 5, FW: 1 });
     const [lineup, setLineup] = useState<LineupState>({});
     const [selectedSlot, setSelectedSlot] = useState<SlotID | null>(null);
@@ -32,13 +36,11 @@ const GuessLineup = () => {
 
     return (
         <div className="guess-lineup-container">
-            <h1 className="guess-lineup-title">Dự Đoán Đội Hình</h1>
-            <p className="guess-lineup-subtitle">Chọn đội hình và sắp xếp cầu thủ trên sân</p>
+            <h1 className="guess-lineup-title">Dự Đoán Đội Hình: {match.home_team.name}</h1>
 
             <FormationForm currentConfig={config} onConfirm={handleConfigChange} />
 
             <div className="lineup-main-layout">
-
                 <div className="lineup-pitch-wrapper">
                     <FootballPitch
                         config={config}
@@ -47,7 +49,6 @@ const GuessLineup = () => {
                         onSlotClick={handleSlotClick}
                     />
                 </div>
-
                 <PlayerSidebar
                     isVisible={!!selectedSlot}
                     onSelect={handlePlayerSelect}

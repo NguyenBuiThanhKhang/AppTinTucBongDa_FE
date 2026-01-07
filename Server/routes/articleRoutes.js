@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const {getLatestArticles, getArticlesByCategory, getNewspaperDetails} = require('../controllers/articleController');
+const {getSpecialArticles, getLatestArticles, getArticlesByCategory, getNewspaperDetails, searchArticles} = require('../controllers/articleController');
 
 router.get('/latest', getLatestArticles);
 
-router.get('/nd/:id', getNewspaperDetails);
-
 router.get('/category/:slug', getArticlesByCategory);
+
+router.get('/search', searchArticles);
+
+router.get('/special', getSpecialArticles);
+
+router.get('/:slug', getNewspaperDetails);
 
 module.exports = router;

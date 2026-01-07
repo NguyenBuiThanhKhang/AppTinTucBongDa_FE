@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
-import './css/HomePage.css';
+import './css/HomePage.scss';
 import { timeAgo } from '../utils/dateUtils';
 import MultimediaSection from './Multimedia';
+import HotTag from './HotTag';
+import SpecialNews from './SpeacialNews';
+
 interface Article {
     _id: string;
     title: string;
@@ -38,10 +41,8 @@ const HomePage = () => {
 
     return (
         <div className="homepage-main">
-            {/* --- PHẦN 1: KHỐI TIN TỨC (LEFT + RIGHT) --- */}
             <div className="homepage-container">
-
-                {/* Cột trái: Tin nổi bật + Tin liên quan */}
+                
                 <div className="left-column">
                     {tinNoiBat && (
                         <div className="highlight-news">
@@ -64,7 +65,6 @@ const HomePage = () => {
                         </div>
                     )}
 
-                    {/* Hàng tin liên quan (3 tin nhỏ dưới tin nổi bật) */}
                     <div className="related-news-row">
                         {tinLienQuan.map(item => (
                             <div key={item._id} className="related-item">
@@ -88,7 +88,6 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                {/* Cột phải: Tin mới nhất (Sidebar) */}
                 <div className="right-column">
                     <div className="sidebar-title">TIN MỚI NHẤT</div>
                     {tinMoiNhat.map(item => (
@@ -113,12 +112,21 @@ const HomePage = () => {
                         </div>
                     ))}
                 </div>
+            </div>
 
-            </div> {/* <--- ĐÓNG THẺ CONTAINER TẠI ĐÂY */}
-
-            {/* --- PHẦN 2: MULTIMEDIA (NẰM RA NGOÀI CONTAINER) --- */}
             <MultimediaSection />
-            
+
+            <div className="homepage-container bottom-section">
+                
+                <div className="left-column">
+                    <SpecialNews />
+                </div>
+
+                <div className="right-column">
+                    <HotTag />
+                </div>
+            </div>
+
         </div>
     );
 };

@@ -56,14 +56,26 @@ def get_article_detail(url, category_default):
         title_tag = soup.select_one("h1")
         title = title_tag.text.strip() if title_tag else "No Title"
 
-        sapo_tag = soup.select_one(".sapo")
-        sapo = sapo_tag.text.strip() if sapo_tag else ""
+        sapo = ""
+        sapo_tag = soup.find("div", class_="summary bdr") or soup.find("div", class_="summary")
+        if sapo_tag:
+            sapo = sapo_tag.get_text(separator=' ', strip=True)
 
         og = soup.find("meta", property="og:image")
         thumbnail = og["content"] if og else ""
 
-        author_tag = soup.find("p", class_="author") or soup.find("div", class_="author")
-        author = author_tag.get_text(strip=True) if author_tag else "Bongdaplus"
+        author = "Bongdaplus"
+        editor_div = soup.find("div", class_="editor")
+        if editor_div:
+            author_link = editor_div.find("a")
+            if author_link:
+                author = author_link.get_text(strip=True)
+            else:
+                full_text = editor_div.get_text(strip=True)
+                if "•" in full_text:
+                    author = full_text.split("•")[0].strip()
+                else:
+                    author = full_text
 
         time_tag = soup.find("span", class_="time") or soup.find("div", class_="time")
         published_at = parse_time(time_tag.get_text(strip=True)) if time_tag else None
