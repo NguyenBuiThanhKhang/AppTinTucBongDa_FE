@@ -46,7 +46,7 @@ const HomePage = () => {
                 <div className="left-column">
                     {tinNoiBat && (
                         <div className="highlight-news">
-                            <Link to={`/bai-viet/${tinNoiBat.slug}`}>
+                            <Link to={`/newspaperDetail/${tinNoiBat._id}`}>
                                 <img
                                     src={tinNoiBat.thumbnail || "https://via.placeholder.com/700x400"}
                                     alt={tinNoiBat.title}
@@ -55,7 +55,7 @@ const HomePage = () => {
                                 />
                             </Link>
                             <h1 className="highlight-title">
-                                <Link to={`/bai-viet/${tinNoiBat.slug}`}>{tinNoiBat.title}</Link>
+                                <Link to={`/newspaperDetail/${tinNoiBat._id}`}>{tinNoiBat.title}</Link>
                             </h1>
                             <div className="meta-info">
                                 <span className="source red">{tinNoiBat.author || "Bongdaplus"}</span>
@@ -68,14 +68,14 @@ const HomePage = () => {
                     <div className="related-news-row">
                         {tinLienQuan.map(item => (
                             <div key={item._id} className="related-item">
-                                <Link to={`/bai-viet/${item.slug}`}>
+                                <Link to={`/newspaperDetail/${item._id}`}>
                                     <img
                                         src={item.thumbnail || "https://via.placeholder.com/300x200"}
                                         alt={item.title}
                                     />
                                 </Link>
                                 <h3>
-                                    <Link to={`/bai-viet/${item.slug}`}>{item.title}</Link>
+                                    <Link to={`/newspaperDetail/${item._id}`}>{item.title}</Link>
                                 </h3>
                                 <div className="meta-info">
                                     <span className="source bold">
@@ -93,7 +93,7 @@ const HomePage = () => {
                     {tinMoiNhat.map(item => (
                         <div key={item._id} className="sidebar-item">
                             <div className="sidebar-img">
-                                <Link to={`/bai-viet/${item.slug}`}>
+                                <Link to={`/newspaperDetail/${item._id}`}>
                                     <img
                                         src={item.thumbnail || "https://via.placeholder.com/100x70"}
                                         alt="thumb"
@@ -102,7 +102,7 @@ const HomePage = () => {
                             </div>
                             <div className="sidebar-content">
                                 <h4>
-                                    <Link to={`/bai-viet/${item.slug}`}>{item.title}</Link>
+                                    <Link to={`/newspaperDetail/${item._id}`}>{item.title}</Link>
                                 </h4>
                                 <div className="meta-info-small">
                                     <span className="source red">{item.category?.name}</span>

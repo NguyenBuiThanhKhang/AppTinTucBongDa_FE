@@ -1,5 +1,6 @@
 const Article = require('../models/Article');
 const Comment = require('../models/Comment');
+const Rate = require('../models/Rate');
 const Category = require('../models/Category');
 const {getContentFromDB} = require("../utils/suport");
 
@@ -76,6 +77,12 @@ const getNewspaperDetails = async (req, res) => {
         const id = req.params.id;
         const article = await Article.findById(id);
         const comments = await Comment.find({ idArticle: id }).sort({ createdAt: -1 });
+        const rate = await Rate.find({ idArticle: id}).sort({ createdAt: -1 });
+        let totalRate = 0;
+        rate.forEach(r => {
+            totalRate+= parseFloat(r.rate);
+        });
+        totalRate = rate.length === 0 ? 0 : totalRate / rate.length;
         if (!article) {
             return res.status(404).json({
                 success: false,
@@ -88,7 +95,7 @@ const getNewspaperDetails = async (req, res) => {
             introduction: "",
             content: getContentFromDB(article.content),
             rate: {
-                rate: 0,
+                rate: totalRate,
             },
             listComment: {
                 listCmt:comments,
