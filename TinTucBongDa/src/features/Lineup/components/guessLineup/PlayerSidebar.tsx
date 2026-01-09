@@ -1,4 +1,4 @@
-import type {Player} from '../../utils/typesLineup';
+import type { Player } from "@/utils/typesLineup";
 import { PLAYERS_DATA } from '../../services/lineupService';
 
 interface Props {

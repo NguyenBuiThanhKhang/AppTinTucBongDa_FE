@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import type {FormLineUp, LineupState, Player, SlotID} from '../utils/typesLineup';
-import { FootballPitch } from '../component/guessLineup/FootballPitch';
-import { FormationForm } from '../component/guessLineup/FormationForm';
-import { PlayerSidebar } from '../component/guessLineup/PlayerSidebar';
 import '@/scss/guessLineup/GuessLineup.scss';
+import { FormationForm } from "@/features/Lineup/components/guessLineup/FormationForm";
+import { PlayerSidebar } from "@/features/Lineup/components/guessLineup/PlayerSidebar";
+import { FootballPitch } from "@/features/Lineup/components/guessLineup/FootballPitch";
 
 const GuessLineup = () => {
     const [config, setConfig] = useState<FormLineUp>({ DF: 4, MF: 5, FW: 1 });

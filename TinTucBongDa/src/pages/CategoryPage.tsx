@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import '../scss/CategoryPage.scss'; 
-import { timeAgo } from '../utils/dateUtils'; 
-import CategorySkeleton from '../component/CategorySkeleton';
-import Pagination from '../component/Pagination'; 
+import './CategoryPage.scss';
+import { timeAgo } from '../utils/dateUtils';
+import CategorySkeleton from '../components/common/CategorySkeleton';
+import Pagination from '../components/common/Pagination';
 
 export interface Article {
     _id: string;
@@ -32,7 +32,7 @@ const CategoryPage = () => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const LIMIT = 13; 
+    const LIMIT = 13;
 
     useEffect(() => {
         setPage(1);
@@ -64,7 +64,7 @@ const CategoryPage = () => {
             }
         };
         fetchData();
-    }, [slug, page]); 
+    }, [slug, page]);
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
@@ -75,7 +75,7 @@ const CategoryPage = () => {
     if (loading || isSwitchingCategory) return <CategorySkeleton />;
 
     if (!data || data.articles.length === 0) {
-        return <div className="error-state" style={{padding: '50px', textAlign: 'center'}}>Chưa có bài viết nào!</div>;
+        return <div className="error-state" style={{ padding: '50px', textAlign: 'center' }}>Chưa có bài viết nào!</div>;
     }
 
     const heroArticle = data.articles[0];
@@ -83,7 +83,7 @@ const CategoryPage = () => {
 
     return (
         <div className="container category-page" style={{ marginTop: '20px' }}>
-            
+
             <div className="cat-breadcrumb">
                 <Link to="/">Trang chủ</Link>
                 <span className="sep">»</span>
@@ -140,12 +140,12 @@ const CategoryPage = () => {
                 ))}
             </div>
 
-            <Pagination 
-                currentPage={page} 
-                totalPages={totalPages} 
-                onPageChange={handlePageChange} 
+            <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
             />
-            
+
         </div>
     );
 };

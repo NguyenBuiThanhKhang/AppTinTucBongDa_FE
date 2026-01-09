@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
-import axiosClient from '../api/axiosClient';
-import '../scss/Multimedia.scss';
-import { getYouTubeID, getYouTubeThumbnail } from '../utils/youtubeUtils';
+import axiosClient from '../../../api/axiosClient';
+import './Multimedia.scss';
+import { getYouTubeID, getYouTubeThumbnail } from '../../../utils/youtubeUtils';
 import { Link } from 'react-router-dom';
 
 interface Video {
@@ -22,7 +22,7 @@ const MultimediaSection = () => {
         const fetchVideos = async () => {
             try {
                 const res: any = await axiosClient.get('/videos');
-                
+
                 const videoData = res.data || res;
                 setVideos(videoData);
 
@@ -44,8 +44,8 @@ const MultimediaSection = () => {
     return (
         <div className="multimedia-container">
             <div className="multimedia-inner">
-                
-                <div className="mm-header-row" style={{marginBottom: '20px'}}>
+
+                <div className="mm-header-row" style={{ marginBottom: '20px' }}>
                     <div className="mm-header">
                         <h2>Multimedia</h2>
                         <div className="mm-line"></div>
@@ -69,11 +69,11 @@ const MultimediaSection = () => {
                         ) : (
                             <div className="video-error">Không có video</div>
                         )}
-                        
+
                         {currentVideo && (
                             <div className="featured-info">
                                 <h3>{currentVideo.title}</h3>
-                                <p style={{fontSize: '13px', color: '#ccc', marginTop: '5px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
+                                <p style={{ fontSize: '13px', color: '#ccc', marginTop: '5px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                                     {currentVideo.description}
                                 </p>
                             </div>
@@ -86,8 +86,8 @@ const MultimediaSection = () => {
                             const isActive = currentVideo && video._id === currentVideo._id;
 
                             return (
-                                <div 
-                                    key={video._id} 
+                                <div
+                                    key={video._id}
                                     className={`mm-item ${isActive ? 'active' : ''}`}
                                     onClick={() => setCurrentVideo(video)}
                                 >

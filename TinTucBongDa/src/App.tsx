@@ -1,9 +1,8 @@
-import MainMenu from './component/MainMenu';
 import AppRouter from "./router/AppRouter";
-import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
-import Footer from './component/Footer';
 import './App.css';
+import MainMenu from "./layouts/MainMenu";
+import Footer from "./layouts/Footer";
 
 function App() {
     return (

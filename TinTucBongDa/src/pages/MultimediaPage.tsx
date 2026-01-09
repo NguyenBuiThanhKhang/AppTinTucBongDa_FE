@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import { FaPlay } from 'react-icons/fa';
-import '../scss/MultimediaPage.scss'; 
+import './MultimediaPage.scss';
 import { getYouTubeID, getYouTubeThumbnail } from '../utils/youtubeUtils';
 
 interface Video {
@@ -13,7 +13,7 @@ interface Video {
 
 interface CategorySection {
     _id: string;
-    name: string; 
+    name: string;
     slug: string;
     videos: Video[];
 }
@@ -41,7 +41,7 @@ const MultimediaPage = () => {
 
             {sections.map((section) => (
                 <div key={section._id} className="category-section">
-                        <div className="section-header">
+                    <div className="section-header">
                         <h2>{section.name}</h2>
                         <div className="line"></div>
                         <div className="plus-icon">+</div>
@@ -56,7 +56,7 @@ const MultimediaPage = () => {
                                     <div className="thumb-wrapper">
                                         <img src={getYouTubeThumbnail(vidId)} alt={video.title} />
                                         <div className="duration-badge">{video.duration}</div>
-                                        
+
                                         <a href={video.link} target="_blank" rel="noreferrer" className="play-overlay">
                                             <FaPlay />
                                         </a>

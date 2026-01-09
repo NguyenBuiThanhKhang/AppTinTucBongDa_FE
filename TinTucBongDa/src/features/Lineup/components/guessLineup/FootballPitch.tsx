@@ -1,4 +1,4 @@
-import type { FormLineUp, LineupState, SlotID } from '../../utils/typesLineup'
+import type { FormLineUp, LineupState, SlotID } from "@/utils/typesLineup";
 import { PlayerNode } from './PlayerNode';
 
 interface Props {

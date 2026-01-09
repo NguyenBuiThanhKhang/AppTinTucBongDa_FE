@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axiosClient from '../api/axiosClient'; 
-import '../scss/SpecialNews.scss';
+import axiosClient from '../../../api/axiosClient';
+import './SpecialNews.scss';
 
 interface SpecialArticle {
     _id: string;
@@ -33,16 +33,16 @@ const SpecialNews = () => {
     }, []);
 
     const [startIndex, setStartIndex] = useState(0);
-    const itemsPerPage = 4; 
+    const itemsPerPage = 4;
 
     const handleNext = () => {
-        setStartIndex((prev) => 
+        setStartIndex((prev) =>
             (prev + itemsPerPage < articles.length) ? prev + 1 : 0
         );
     };
 
     const handlePrev = () => {
-        setStartIndex((prev) => 
+        setStartIndex((prev) =>
             (prev > 0) ? prev - 1 : Math.max(0, articles.length - itemsPerPage)
         );
     };
@@ -60,7 +60,7 @@ const SpecialNews = () => {
     return (
         <div className="special-news-section">
             <div className="special-container">
-                
+
                 <div className="section-header">
                     <span className="line"></span>
                     <h2 className="header-title">ĐẶC BIỆT</h2>
@@ -69,7 +69,7 @@ const SpecialNews = () => {
                 </div>
 
                 {loading ? (
-                    <div style={{textAlign: 'center', padding: '20px'}}>Đang tải...</div>
+                    <div style={{ textAlign: 'center', padding: '20px' }}>Đang tải...</div>
                 ) : (
                     <div className="carousel-wrapper">
                         <button className="nav-btn prev-btn" onClick={handlePrev}>
@@ -81,9 +81,9 @@ const SpecialNews = () => {
                                 <div key={item._id} className="special-card fade-in">
                                     <Link to={`/bai-viet/${item.slug}`} className="card-link">
                                         <div className="card-image">
-                                            <img 
-                                                src={item.thumbnail} 
-                                                alt={item.title} 
+                                            <img
+                                                src={item.thumbnail}
+                                                alt={item.title}
                                                 onError={(e) => e.currentTarget.src = "https://via.placeholder.com/300x200"}
                                             />
                                             <span className="tag-label">{item.tag || "HOT"}</span>

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { timeAgo } from '../utils/dateUtils';
-import '../scss/CategoryPage.scss'; 
-import Pagination from '../component/Pagination'; 
+import './CategoryPage.scss'; 
+import Pagination from '../components/common/Pagination';
 
 interface Article {
     _id: string;

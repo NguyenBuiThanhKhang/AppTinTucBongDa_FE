@@ -1,5 +1,5 @@
+import type { FormLineUp } from "@/utils/typesLineup";
 import { useState } from 'react';
-import type {FormLineUp} from '../../utils/typesLineup';
 
 interface Props {
     currentConfig: FormLineUp;

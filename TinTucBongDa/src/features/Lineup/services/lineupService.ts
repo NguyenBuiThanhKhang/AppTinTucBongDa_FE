@@ -1,4 +1,4 @@
-import type {Player} from '../utils/typesLineup';
+import type { Player } from "@/utils/typesLineup";
 
 export const PLAYERS_DATA: Player[] = [
     { id: 1, name: "David De Gea", number: 1, club: "Free Agent", avatar: "http://c.files.bbci.co.uk/AD8D/production/_129792444_gettyimages-1248620725.jpg" },

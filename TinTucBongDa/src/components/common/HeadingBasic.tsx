@@ -1,4 +1,3 @@
-import FootballSchedule, {type FootballScheduleProps} from "./FootballSchedule.tsx";
 
 // const matchStatic: Match[] = [
 //     {
@@ -49,6 +48,10 @@ import FootballSchedule, {type FootballScheduleProps} from "./FootballSchedule.t
 //         home: { name: "Arsenal", logo: "arsenal.png" },
 //         away: { name: "Bayern", logo: "bayern.png" }
 //     }
+
+import type { FootballScheduleProps } from "@/features/Match/components/FootballSchedule";
+import FootballSchedule from "@/features/Match/components/FootballSchedule";
+
 // ]
 type HeadingProps ={
     footballScheduleProps: FootballScheduleProps;

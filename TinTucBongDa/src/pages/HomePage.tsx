@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient.ts';
-import '../component/css/HomePage.scss';
+import './HomePage.scss';
 import { timeAgo } from '../utils/dateUtils.ts';
-import MultimediaSection from '../component/Multimedia.tsx';
-import HotTag from '../component/HotTag.tsx';
-import SpecialNews from '../component/SpeacialNews.tsx';
+import MultimediaSection from '../features/Multimedia/components/Multimedia.tsx';
+import HotTag from '../features/News/components/HotTag.tsx';
+import SpecialNews from '../features/News/components/SpeacialNews.tsx';
 
 interface Article {
     _id: string;
@@ -42,7 +42,7 @@ const HomePage = () => {
     return (
         <div className="homepage-main">
             <div className="homepage-container">
-                
+
                 <div className="left-column">
                     {tinNoiBat && (
                         <div className="highlight-news">
@@ -117,7 +117,7 @@ const HomePage = () => {
             <MultimediaSection />
 
             <div className="homepage-container bottom-section">
-                
+
                 <div className="left-column">
                     <SpecialNews />
                 </div>

@@ -1,5 +1,5 @@
+import axiosClient from "@/api/axiosClient";
 import {useState} from "react";
-import axiosClient from "../../api/axiosClient.ts";
 
 function InputComment(){
     const [commentText, setCommentText] = useState('');

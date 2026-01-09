@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosClient from "../api/axiosClient.ts";
-import NewspaperDetail, { type NewspaperDetailProps } from "../component/NewspaperDetail.tsx";
+import NewspaperDetail, { type NewspaperDetailProps } from "../features/News/components/NewspaperDetail.tsx";
 
 function NewspaperDetailPage() {
     const { id } = useParams();
@@ -26,8 +26,8 @@ function NewspaperDetailPage() {
     if (!newsDetail) return <div>Không tìm thấy bài báo!</div>
     console.log(newsDetail);
     return (
-        <NewspaperDetail title={newsDetail.title}  introduction={newsDetail.introduction}
-            content={newsDetail.content} rate={newsDetail.rate} listComment={newsDetail.listComment}/>
+        <NewspaperDetail title={newsDetail.title} introduction={newsDetail.introduction}
+            content={newsDetail.content} rate={newsDetail.rate} listComment={newsDetail.listComment} />
     );
 }
 

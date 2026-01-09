@@ -1,4 +1,4 @@
-import type {Match} from "../utils/typesMatch";
+import type { Match } from "@/utils/typesMatch";
 
 const MOCK_DATA: Match[] = [
     {
@@ -25,6 +25,7 @@ const MOCK_DATA: Match[] = [
 
 const URL = 'http://localhost:5000/api/matches?limit=10';
 const getData = async (): Promise<Match[]> => {
+    // eslint-disable-next-line no-useless-catch
     try {
         const response = await fetch(URL);
 

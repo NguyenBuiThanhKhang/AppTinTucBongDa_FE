@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import './css/Footer.css';
-import logoBongDa from '../assets/logo.png'; 
+import './Footer.css';
+import logoBongDa from '../assets/logo.png';
 
 const Footer = () => {
     return (
         <footer className="footer-simple">
             <div className="footer-wrapper">
-                
+
                 <div className="footer-top-bar">
                     <div className="footer-links-row">
                         <Link to="#">Điều khoản sử dụng</Link>
@@ -25,7 +25,7 @@ const Footer = () => {
 
                 {/* DÒNG 2: Thông tin chính */}
                 <div className="footer-main-info">
-                    
+
                     {/* Cột 1: Giới thiệu & Giấy phép */}
                     <div className="info-col left">
                         <div className="brand-header">
