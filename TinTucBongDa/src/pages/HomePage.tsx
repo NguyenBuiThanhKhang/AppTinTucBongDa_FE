@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axiosClient from '../api/axiosClient';
-import './css/HomePage.scss';
-import { timeAgo } from '../utils/dateUtils';
-import MultimediaSection from './Multimedia';
-import HotTag from './HotTag';
-import SpecialNews from './SpeacialNews';
+import axiosClient from '../api/axiosClient.ts';
+import '../component/css/HomePage.scss';
+import { timeAgo } from '../utils/dateUtils.ts';
+import MultimediaSection from '../component/Multimedia.tsx';
+import HotTag from '../component/HotTag.tsx';
+import SpecialNews from '../component/SpeacialNews.tsx';
 
 interface Article {
     _id: string;

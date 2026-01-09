@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import HomePage from "../component/HomePage.tsx";
+import HomePage from "../pages/HomePage.tsx";
 import NewspaperDetailPage from "../pages/NewspaperDetailLPage.tsx";
 import MultimediaPage from "../pages/MultimediaPage.tsx";
 import CategoryPage from "../pages/CategoryPage.tsx";
