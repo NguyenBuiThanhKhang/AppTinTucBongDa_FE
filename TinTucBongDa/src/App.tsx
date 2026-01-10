@@ -3,6 +3,8 @@ import AppRouter from "./router/AppRouter";
 import logoBongDa from './assets/logo.png';
 import './App.css';
 import MatchHistory from "@/component/timelineHistory/MatchHistory.tsx";
+import LinkOfProject from "@/utils/LinkOfProject.tsx";
+import VerticalMenu from "@/component/VerticalMenu.tsx";
 
 
 function App() {
@@ -24,11 +26,20 @@ function App() {
                         marginTop: '-50px',  
                     }}
                 />
+                <LinkOfProject tyeLink={"bootstrap"}/>
+                <LinkOfProject tyeLink={"fontawesome"}/>
+                <link rel="stylesheet" href="/src/scss/GeneralStyle.css"/>
             </header>
-
-            <MainMenu />
-            <MatchHistory/>
-            <AppRouter/>
+            <div className="container" style={{display: 'flex'}}>
+                <div className="vMenu">
+                    <VerticalMenu/>
+                </div>
+                <div className="content">
+                    <MainMenu />
+                    <MatchHistory/>
+                    <AppRouter/>
+                </div>
+            </div>
 
         </div>
     );
