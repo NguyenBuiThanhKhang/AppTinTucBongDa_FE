@@ -1,13 +1,11 @@
 import MainMenu from './component/MainMenu';
 import AppRouter from "./router/AppRouter";
-import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
-import Footer from './component/Footer';
 import './App.css';
+import MatchHistory from "@/component/timelineHistory/MatchHistory.tsx";
+import LinkOfProject from "@/utils/LinkOfProject.tsx";
+import VerticalMenu from "@/component/VerticalMenu.tsx";
 
-import CategoryPage from './pages/CategoryPage';
-import MultimediaPage from './pages/MultimediaPage';
-import PredictPage from './pages/PredictPage';
 
 function App() {
     return (
@@ -28,22 +26,20 @@ function App() {
                         marginTop: '-50px',  
                     }}
                 />
+                <LinkOfProject tyeLink={"bootstrap"}/>
+                <LinkOfProject tyeLink={"fontawesome"}/>
+                <link rel="stylesheet" href="/src/scss/GeneralStyle.css"/>
             </header>
-
-            <MainMenu />
-
-
-                <MatchHistory />
-
-
-                <Routes>
-
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/:slug" element={<CategoryPage />} />
-                    <Route path="/multimedia" element={<MultimediaPage />} />
-                    <Route path="/match/detail/:id"> </Route>
-                    <Route path="/match/predict/:id" element={<PredictPage/>}> </Route>
-                </Routes>
+            <div className="container" style={{display: 'flex'}}>
+                <div className="vMenu">
+                    <VerticalMenu/>
+                </div>
+                <div className="content">
+                    <MainMenu />
+                    <MatchHistory/>
+                    <AppRouter/>
+                </div>
+            </div>
 
         </div>
     );
