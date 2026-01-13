@@ -5,13 +5,12 @@ function getContentFromDB(htmlString) {
     if (!htmlString) return [];
 
     const blockNews = [];
-
     const $ = cheerio.load(htmlString);
 
     $('body').children().each((index, element) => {
         const $el = $(element);
 
-        // Hình ảnh
+        // Xử lý hình ảnh trong thẻ p
         if (element.name === 'p') {
             const $img = $el.find('img');
 
@@ -32,7 +31,7 @@ function getContentFromDB(htmlString) {
                 }
             }
         }
-        // Heading
+        // Xử lý Heading (h1-h6)
         else if (/^h[1-6]$/.test(element.name)) {
             blockNews.push({
                 numberOrder: index + 1,

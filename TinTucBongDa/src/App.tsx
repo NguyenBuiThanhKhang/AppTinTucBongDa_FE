@@ -1,18 +1,20 @@
 import MainMenu from './component/MainMenu';
 import AppRouter from "./router/AppRouter";
-import MatchHistory from './component/timelineHistory/MatchHistory.tsx';
 import logoBongDa from './assets/logo.png';
-import Footer from './component/Footer';
 import './App.css';
+import MatchHistory from "@/component/timelineHistory/MatchHistory.tsx";
+import LinkOfProject from "@/utils/LinkOfProject.tsx";
+import VerticalMenu from "@/component/VerticalMenu.tsx";
+
 
 function App() {
     return (
         <div className="App">
             <header style={{
                 textAlign: 'center',
-                overflow: 'hidden',
-                height: '100px',
-                display: 'flex',
+                overflow: 'hidden', 
+                height: '100px',    
+                display: 'flex',    
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
@@ -20,16 +22,25 @@ function App() {
                     src={logoBongDa}
                     alt="Logo Bongda"
                     style={{
-                        height: '200px',
-                        marginTop: '-50px',
+                        height: '200px',   
+                        marginTop: '-50px',  
                     }}
                 />
+                <LinkOfProject tyeLink={"bootstrap"}/>
+                <LinkOfProject tyeLink={"fontawesome"}/>
+                <link rel="stylesheet" href="/src/scss/GeneralStyle.css"/>
             </header>
+            <div className="container" style={{display: 'flex'}}>
+                <div className="vMenu">
+                    <VerticalMenu/>
+                </div>
+                <div className="content">
+                    <MainMenu />
+                    <MatchHistory/>
+                    <AppRouter/>
+                </div>
+            </div>
 
-            <MainMenu />
-            <MatchHistory />
-            <AppRouter />
-            <Footer />
         </div>
     );
 }
