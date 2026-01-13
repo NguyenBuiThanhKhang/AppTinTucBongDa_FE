@@ -6,6 +6,7 @@ import RegisterPage from "@/pages/RegisterPage.tsx";
 import MultimediaPage from "../pages/MultimediaPage.tsx";
 import CategoryPage from "../pages/CategoryPage.tsx";
 import SearchPage from "../pages/SearchPage.tsx";
+import PredictPage from "../pages/PredictPage.tsx";
 
 function AppRouter() {
      return useRoutes([
@@ -37,6 +38,10 @@ function AppRouter() {
             path: '/:slug', 
             element: <CategoryPage />,
         },
+         {
+             path: 'match/predict/:matchId',
+             element: <PredictPage />,
+         } ,
         {
             path: '*',
             element: <div style={{ padding: "20px" }}>Trang không tồn tại (404)</div>,

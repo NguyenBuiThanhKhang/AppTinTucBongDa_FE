@@ -5,18 +5,14 @@ import logoBongDa from './assets/logo.png';
 import Footer from './component/Footer';
 import './App.css';
 
-import CategoryPage from './pages/CategoryPage';
-import MultimediaPage from './pages/MultimediaPage';
-import PredictPage from './pages/PredictPage';
-
 function App() {
     return (
         <div className="App">
             <header style={{
                 textAlign: 'center',
-                overflow: 'hidden', 
-                height: '100px',    
-                display: 'flex',    
+                overflow: 'hidden',
+                height: '100px',
+                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
@@ -24,27 +20,16 @@ function App() {
                     src={logoBongDa}
                     alt="Logo Bongda"
                     style={{
-                        height: '200px',   
-                        marginTop: '-50px',  
+                        height: '200px',
+                        marginTop: '-50px',
                     }}
                 />
             </header>
 
             <MainMenu />
-
-
-                <MatchHistory />
-
-
-                <Routes>
-
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/:slug" element={<CategoryPage />} />
-                    <Route path="/multimedia" element={<MultimediaPage />} />
-                    <Route path="/match/detail/:id"> </Route>
-                    <Route path="/match/predict/:id" element={<PredictPage/>}> </Route>
-                </Routes>
-
+            <MatchHistory />
+            <AppRouter />
+            <Footer />
         </div>
     );
 }
