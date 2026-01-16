@@ -1,34 +1,29 @@
-$primary-color: #667eea;
-$accent-color: #e74c3c;
-$bg-color: #f5f7fa;
-$card-bg: #ffffff;
-$text-color: #333;
-$radius: 8px;
+@use '../guessLineup/variables' as *;
 
 .predict-page-wrapper {
   min-height: 100vh;
   padding: 24px;
-  background: $bg-color;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f9fafb;
 
   .page-header {
     text-align: center;
     margin-bottom: 32px;
 
     h1 {
-      font-size: 2rem;
-      color: $primary-color;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: $color-red;
       margin-bottom: 8px;
     }
 
     .match-info {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
-      color: $text-color;
+      color: $color-text;
 
       .vs {
         margin: 0 8px;
-        color: $accent-color;
+        color: $color-red;
       }
     }
   }
@@ -39,40 +34,46 @@ $radius: 8px;
   }
 
   .section-container {
-    background: $card-bg;
+    background: $color-white;
     padding: 20px;
     margin-bottom: 20px;
+
     border-radius: $radius;
-    border: 1px solid #eaeaea;
+    border: 1px solid $color-border;
+    box-shadow: $shadow;
 
     .section-title {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $color-text;
       margin-bottom: 16px;
-      color: $primary-color;
     }
   }
 }
 
+/* Error state */
 .error-container {
   text-align: center;
   padding-top: 60px;
 
   p {
-    font-size: 1.1rem;
-    color: $text-color;
+    font-size: 1rem;
+    color: $color-text-muted;
     margin-bottom: 16px;
   }
 
   button {
     padding: 10px 20px;
-    background: $primary-color;
-    color: #fff;
+    background: $color-red;
+    color: white;
+
     border: none;
-    border-radius: 4px;
+    border-radius: $radius;
     cursor: pointer;
+    transition: 0.2s;
 
     &:hover {
-      background: darken($primary-color, 8%);
+      opacity: 0.9;
     }
   }
 }

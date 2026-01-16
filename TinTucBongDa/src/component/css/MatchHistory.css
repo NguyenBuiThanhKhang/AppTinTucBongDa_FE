@@ -1,7 +1,5 @@
-/* src/component/MatchHistory.css */
 .match-history-container {
     padding: 20px;
-    background: #f9f9f9;
 }
 
 .match-list {
@@ -29,6 +27,7 @@
     width: 100%;
     font-size: 12px;
     font-weight: bold;
+    font-family:'Inter', sans-serif;
 }
 
 .score-box {
