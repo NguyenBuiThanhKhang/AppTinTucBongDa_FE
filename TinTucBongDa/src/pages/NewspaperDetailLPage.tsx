@@ -7,9 +7,6 @@ function NewspaperDetailPage() {
     const { id } = useParams();
     const [newsDetail, setNewsDetail] = useState<NewspaperDetailProps | null>(null);
     const [loading, setLoading] = useState(true);
-    if(id){
-        localStorage.setItem("articleId",id);
-    }
     useEffect(() => {
         console.log("render....")
         const fetchData = async () => {
@@ -29,7 +26,7 @@ function NewspaperDetailPage() {
     if (!newsDetail) return <div>Không tìm thấy bài báo!</div>
     console.log(newsDetail);
     return (
-        <NewspaperDetail title={newsDetail.title}  introduction={newsDetail.introduction}
+        <NewspaperDetail articleId={id || ""} title={newsDetail.title}  introduction={newsDetail.introduction}
             content={newsDetail.content} rate={newsDetail.rate} listComment={newsDetail.listComment}/>
     );
 }
