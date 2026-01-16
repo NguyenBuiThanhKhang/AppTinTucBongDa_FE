@@ -1,0 +1,156 @@
+.app-header {
+  width: 100%;
+  background: #fff;
+  position: relative;
+  z-index: 9999 !important;
+
+  .header-container {
+    height: 70px;
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    &.left {
+      justify-content: flex-start;
+
+      .hamburger-btn {
+        font-size: 22px;
+        cursor: pointer;
+        padding: 8px;
+        color: #333;
+
+        &:hover {
+          color: #d60000;
+        }
+      }
+    }
+
+    &.center {
+      justify-content: center;
+
+      img {
+        height: 145px;
+        width: 250px;
+        object-fit: contain;
+      }
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.user-menu-wrapper {
+  position: relative;
+
+  .user-avatar-trigger {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f1f1f1;
+    border: 2px solid transparent;
+
+    &:hover,
+    &.active {
+      border-color: #d60000;
+      background: #fff;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .dropdown-menu-box {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 240px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 2000;
+
+    .menu-header {
+      padding: 14px 16px;
+      background: #fafafa;
+      border-bottom: 1px solid #eee;
+
+      .user-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .user-role {
+        font-size: 12px;
+        color: #888;
+      }
+    }
+
+    .menu-list {
+      padding: 4px 0;
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        padding: 10px 16px;
+        font-size: 14px;
+        color: #444;
+        cursor: pointer;
+        text-decoration: none;
+        i {
+          width: 18px;
+          color: #888;
+        }
+
+        &:hover {
+          background: #f5f5f5;
+          color: #d60000;
+
+          i {
+            color: #d60000;
+          }
+        }
+
+        &.vip-item {
+          margin-top: 6px;
+          border-top: 1px solid #eee;
+          color: #ff9800;
+          font-weight: 600;
+
+          i {
+            color: #ff9800;
+          }
+
+          &:hover {
+            background: #fff3e0;
+          }
+        }
+      }
+    }
+  }
+}
