@@ -16,7 +16,7 @@ const commentRoutes = require('./routes/commentRoutes');
 const rateRoutes = require('./routes/rateRoutes');
 // const matchRoutes = require('./routes/matchRoutes');
 const videoRoutes = require('./routes/videoRoutes')
-const germiniRoutes = require('./routes/GerminiRoutes');
+const mtlRoutes = require('./routes/MutiLangNewsRoutes');
 
 
 const userRoutes = require('./routes/userRoutes');
@@ -32,7 +32,7 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/rates', rateRoutes);
 // app.use('/api/matches', matchRoutes);
 app.use('/api/videos', videoRoutes);
-app.use('/api/germinis',germiniRoutes );
+app.use('/api/mtl',mtlRoutes );
 app.use('/api/user', userRoutes);
 
 

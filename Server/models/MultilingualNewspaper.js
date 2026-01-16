@@ -11,10 +11,15 @@ const multilingualNewspaperSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    content: {
+    title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        index: true
+    },
+    content: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

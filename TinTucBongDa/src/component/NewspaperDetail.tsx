@@ -53,7 +53,6 @@ function NewspaperDetail({title, introduction, content, rate, listComment}: News
             <LinkOfProject tyeLink={"fontawesome"}/>
             <LinkOfProject tyeLink={"bootstrap"}/>
             <div className="breadcrumb">
-                <a>Home</a> / <a>Category</a> / <a>Detail</a>
             </div>
             <div className="title">
                 <p>{title}</p>
