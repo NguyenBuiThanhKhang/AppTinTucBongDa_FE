@@ -6,6 +6,7 @@ import { timeAgo } from '../utils/dateUtils';
 import MultimediaSection from './Multimedia';
 import HotTag from './HotTag';
 import SpecialNews from './SpeacialNews';
+import LatestNews from './LastestNews';
 
 interface Article {
     _id: string;
@@ -89,28 +90,7 @@ const HomePage = () => {
                 </div>
 
                 <div className="right-column">
-                    <div className="sidebar-title">TIN MỚI NHẤT</div>
-                    {tinMoiNhat.map(item => (
-                        <div key={item._id} className="sidebar-item">
-                            <div className="sidebar-img">
-                                <Link to={`/newspaperDetail/${item._id}`}>
-                                    <img
-                                        src={item.thumbnail || "https://via.placeholder.com/100x70"}
-                                        alt="thumb"
-                                    />
-                                </Link>
-                            </div>
-                            <div className="sidebar-content">
-                                <h4>
-                                    <Link to={`/newspaperDetail/${item._id}`}>{item.title}</Link>
-                                </h4>
-                                <div className="meta-info-small">
-                                    <span className="source red">{item.category?.name}</span>
-                                    <span className="time">{timeAgo(item.createdAt)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                    <LatestNews articles={tinMoiNhat} />
                 </div>
             </div>
 
