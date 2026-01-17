@@ -95,8 +95,29 @@ const toggleSaveArticle = async (req, res) => {
         return res.status(500).json({ success: false, message: "Lỗi server" });
     }
 };
+
+    const getSavedArticles = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await User.findById(userId).populate('savedArticles');
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User không tồn tại" });
+        }
+
+        res.status(200).json({ 
+            success: true, 
+            data: user.savedArticles.reverse() 
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Lỗi server khi lấy bài viết đã lưu" });
+    }
+}; 
 module.exports = {
     login,
     register,
-    toggleSaveArticle
+    toggleSaveArticle,
+    getSavedArticles
 }
