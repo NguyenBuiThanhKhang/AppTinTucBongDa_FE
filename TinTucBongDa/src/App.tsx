@@ -4,6 +4,7 @@ import './App.css';
 import LinkOfProject from "@/utils/LinkOfProject.tsx";
 import Header from "@/component/Header.tsx";
 import MatchHistory from "./component/timelineHistory/MatchHistory.tsx";
+import Footer from "@/component/Footer.tsx";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <MainMenu />
                 <MatchHistory/>
                 <AppRouter />
+                <Footer />
             </div>
             <LinkOfProject tyeLink={"bootstrap"}/>
             <LinkOfProject tyeLink={"fontawesome"}/>

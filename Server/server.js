@@ -15,12 +15,15 @@ const articleRoutes = require('./routes/articleRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const rateRoutes = require('./routes/rateRoutes');
 const matchRoutes = require('./routes/matchRoutes');
-const videoRoutes = require('./routes/videoRoutes');
+
+const videoRoutes = require('./routes/videoRoutes')
+const mtlRoutes = require('./routes/MutiLangNewsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const predictionRoutes = require('./routes/predictionRoutes');
 
 // Middleware
 app.use(express.json());
+app.use(express.text({ type: "text/plain", limit: "20mb" }));
 app.use(cors());
 
 app.use('/api/categories', categoryRoutes);
@@ -29,6 +32,8 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/rates', rateRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/videos', videoRoutes);
+app.use('/api/mtl',mtlRoutes );
+
 app.use('/api/user', userRoutes);
 app.use('/api/predictions', predictionRoutes);
 

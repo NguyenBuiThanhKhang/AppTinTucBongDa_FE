@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 function LoginPage(){
     const [username,setUsername]= useState("");
     const [password,setPassword]= useState("");
-    const [statusLogin, setStatusLogin] = useState("o");
+    const [statusLogin, setStatusLogin] = useState("");
     const navigate = useNavigate();
     async function login(){
 
@@ -17,17 +17,19 @@ function LoginPage(){
                 username:username,
                 password:password
             }
-            const response = await axiosClient.post("/user/login",loginData)
+            const response: any = await axiosClient.post("/user/login",loginData)
+            const serverResponse = (response && response.token) ? response : response.data;
             if(response ===  null) {
                 setStatusLogin("Server không phản hồi")
                 return
             };
-            const userID = response.data.userID;
-            if(!userID){
-                return;
-            }
-            localStorage.setItem("userId",userID);
-            localStorage.setItem("username",username);
+            const { token, data: userInfo } = serverResponse;
+
+            localStorage.setItem("access_token", token);
+            localStorage.setItem("user_info", JSON.stringify(userInfo));
+            localStorage.setItem("userId", userInfo.userID);
+            localStorage.setItem("username", userInfo.username);
+
             alert("Đăng nhập thành công");
             navigate("/");
         } catch(error){
@@ -42,9 +44,9 @@ function LoginPage(){
         <div className="login-body">
             <link rel="stylesheet" href="src/scss/LoginStyle.css"/>
             <input type="text" placeholder="Tên đăng nhập..." id="username"
-                   name="username" onChange={(e)=>setUsername(e.target.value)}/>
+                   name="username" value={username} onChange={(e)=>setUsername(e.target.value)}/>
             <input type="password" placeholder="Mật khẩu..." id="password"
-            name="password" onChange={(e)=>setPassword(e.target.value)}/>
+            name="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
             <button className="btn-login" onClick={login}> Đăng nhập</button>
             <p className="status">
                 {statusLogin}
