@@ -66,6 +66,9 @@ function VerticalMenu() {
                                     <i className="fa-solid fa-id-card"></i>
                                     <span>Hồ sơ cá nhân</span>
                                 </Link>
+                                <Link to="/saved-articles" className="menu-item" onClick={() => setIsOpen(false)}>
+                                    <i className="fa-solid fa-bookmark"></i> Bài đã lưu
+                                </Link>
                                 <Link to="/changepassword" className="menu-item" onClick={() => setIsOpen(false)}>
                                     <i className="fa-solid fa-key"></i>
                                     <span>Đổi mật khẩu</span>

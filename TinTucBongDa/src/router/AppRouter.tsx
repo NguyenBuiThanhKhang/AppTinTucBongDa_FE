@@ -7,6 +7,7 @@ import MultimediaPage from "../pages/MultimediaPage.tsx";
 import CategoryPage from "../pages/CategoryPage.tsx";
 import SearchPage from "../pages/SearchPage.tsx";
 import PredictPage from "../pages/PredictPage.tsx";
+import SavedArticlesPage from '@/pages/SavedArticlesPage.tsx';
 
 function AppRouter() {
      return useRoutes([
@@ -42,6 +43,10 @@ function AppRouter() {
              path: 'match/predict/:matchId',
              element: <PredictPage />,
          } ,
+         {
+            path:"/saved-articles",
+            element:<SavedArticlesPage/>
+         },
         {
             path: '*',
             element: <div style={{ padding: "20px" }}>Trang không tồn tại (404)</div>,
