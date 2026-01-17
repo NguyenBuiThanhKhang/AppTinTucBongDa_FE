@@ -12,7 +12,7 @@
     "watch-scss": "sass --watch src/scss/guessLineup/GuessLineup.scss:src/scss/guessLineup/GuessLineup.css --source-map"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.11.1",
+    "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.2",
     "classnames": "^2.5.1",
     "cors": "^2.8.5",
