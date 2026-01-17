@@ -112,7 +112,6 @@ function NewspaperDetail({articleId, title, introduction, content, rate, listCom
             <LinkOfProject tyeLink={"fontawesome"}/>
             <LinkOfProject tyeLink={"bootstrap"}/>
             <div className="breadcrumb">
-                <a>Home</a> / <a>Category</a> / <a>Detail</a>
             </div>
             <div className="title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <p style={{ margin: 0, flex: 1 }}>{title}</p>

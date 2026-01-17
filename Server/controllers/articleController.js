@@ -114,6 +114,33 @@ const getNewspaperDetails = async (req, res) => {
         });
     }
 }
+const getNewspaperDetailsInter = async (id) => {
+    const article = await Article.findById(id);
+    if (!article) {
+        throw new Error("Không tìm thấy bài viết");
+    }
+
+    const comments = await Comment.find({ idArticle: id }).sort({ createdAt: -1 });
+    const rate = await Rate.find({ idArticle: id }).sort({ createdAt: -1 });
+
+    let totalRate = 0;
+    rate.forEach(r => totalRate += parseFloat(r.rate));
+    totalRate = rate.length === 0 ? 0 : totalRate / rate.length;
+
+    return {
+        _id: article._id,
+        title: article.title,
+        introduction: "",
+        content: getContentFromDB(article.content),
+        rate: {
+            rate: totalRate,
+        },
+        listComment: {
+            listCmt: comments,
+        }
+    };
+};
+
 
 const searchArticles = async (req, res) => {
     try {
@@ -193,5 +220,6 @@ module.exports = {
     getNewspaperDetails,
     getArticlesByCategory, 
     getSpecialArticles,
-    searchArticles
+    searchArticles,
+    getNewspaperDetailsInter
 };
