@@ -1,18 +1,18 @@
+@use '../guessLineup/variables' as *;
+
 .pridict-score-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background-color: #ffffff;
-
   max-width: 800px;
   margin: 0 auto;
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-  sans-serif;
+  background: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: $shadow;
 }
 
 .home-team-container,
@@ -20,7 +20,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
   width: 35%;
 
   img {
@@ -31,8 +30,8 @@
 
   span {
     font-size: 14px;
-    font-weight: 500;
-    color: #111827;
+    font-weight: 600;
+    color: $color-text;
     white-space: nowrap;
   }
 
@@ -42,14 +41,16 @@
 
     text-align: center;
     font-size: 14px;
+    font-weight: 600;
 
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-
+    border: 1px solid $color-border;
+    border-radius: $radius;
     outline: none;
+    transition: 0.2s;
 
     &:focus {
-      border-color: #2563eb;
+      border-color: $color-red;
+      box-shadow: 0 0 0 3px $color-red-light;
     }
   }
 }
@@ -65,12 +66,12 @@
   .type-competition {
     font-size: 13px;
     font-weight: 600;
-    color: #2563eb;
+    color: $color-red;
   }
 
   .time {
     font-size: 12px;
-    color: #6b7280;
+    color: $color-text-muted;
   }
 }
 

@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import RateInput from "./reviewsAndComments/RateInput.tsx";
 import Rating, {type RatingProps} from "./reviewsAndComments/Evaluation.tsx";
 import RenderListCmt, {type CommentListProps} from "./reviewsAndComments/Comment.tsx";
 import LinkOfProject from "../utils/LinkOfProject.tsx";
 import InputComment from "./reviewsAndComments/InputComment.tsx";
+import userApi from "../api/userApi.ts";
 
 type BlockNewspaper ={
     numberOrder : number,
@@ -11,6 +13,7 @@ type BlockNewspaper ={
 }
 
 export type NewspaperDetailProps ={
+    articleId: string;
     title: string,
     introduction: string,
     content: BlockNewspaper[],
@@ -18,7 +21,63 @@ export type NewspaperDetailProps ={
     listComment: CommentListProps
 }
 
-function NewspaperDetail({title, introduction, content, rate, listComment}: NewspaperDetailProps) {
+function NewspaperDetail({articleId, title, introduction, content, rate, listComment}: NewspaperDetailProps) {
+    const [isSaved, setIsSaved] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    useEffect(() => {
+        const userStr = localStorage.getItem("user_info");
+        const token = localStorage.getItem("access_token");
+
+        if (token && userStr) {
+            setIsAuthenticated(true);
+            try {
+                const user = JSON.parse(userStr);
+                if (user.savedArticles && Array.isArray(user.savedArticles)) {
+                    if (user.savedArticles.includes(articleId)) {
+                        setIsSaved(true);
+                    }
+                }
+            } catch (e) {
+                console.error("Lỗi đọc dữ liệu user từ storage", e);
+            }
+        }
+    }, [articleId]);
+
+    const handleSaveClick = async () => {
+        if (!isAuthenticated) {
+            alert("Bạn cần đăng nhập để lưu bài viết!");
+            return;
+        }
+
+        try {
+            const response: any = await userApi.toggleSaveArticle(articleId);
+
+            if (response.success) {
+                setIsSaved(response.isSaved);
+                alert(response.message);
+
+                const userStr = localStorage.getItem("user_info");
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    
+                    if (!user.savedArticles) user.savedArticles = [];
+
+                    if (response.isSaved) {
+                        if (!user.savedArticles.includes(articleId)) {
+                            user.savedArticles.push(articleId);
+                        }
+                    } else {
+                        user.savedArticles = user.savedArticles.filter((id: string) => id !== articleId);
+                    }
+                    localStorage.setItem("user_info", JSON.stringify(user));
+                }
+            }
+        } catch (error) {
+            console.error("Lỗi khi lưu bài:", error);
+            alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+        }
+    };
+
     function renderBlockNewspaper(b:BlockNewspaper){
         switch (b.type){
             // Tieu de phu
@@ -54,8 +113,34 @@ function NewspaperDetail({title, introduction, content, rate, listComment}: News
             <LinkOfProject tyeLink={"bootstrap"}/>
             <div className="breadcrumb">
             </div>
-            <div className="title">
-                <p>{title}</p>
+            <div className="title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p style={{ margin: 0, flex: 1 }}>{title}</p>
+                
+                <button 
+                    onClick={handleSaveClick}
+                    title={isSaved ? "Bỏ lưu bài viết" : "Lưu bài viết"}
+                    style={{
+                        background: 'transparent',
+                        border: '1px solid #ddd',
+                        borderRadius: '50%',
+                        width: '45px',
+                        height: '45px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginLeft: '15px',
+                        transition: '0.2s'
+                    }}
+                >
+                    <i 
+                        className={isSaved ? "fa-solid fa-heart" : "fa-regular fa-heart"} 
+                        style={{ 
+                            color: isSaved ? '#d0021b' : '#555', 
+                            fontSize: '22px' 
+                        }}
+                    ></i>
+                </button>
             </div>
             <div className="introduction">
                 {introduction}

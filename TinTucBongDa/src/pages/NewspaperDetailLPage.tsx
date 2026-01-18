@@ -75,6 +75,7 @@ function NewspaperDetailPage() {
             </div>
 
             <NewspaperDetail
+                articleId={id || ""}
                 title={newsDetail.title}
                 introduction={newsDetail.introduction}
                 content={newsDetail.content}

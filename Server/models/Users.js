@@ -10,7 +10,11 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    }
+    },
+    savedArticles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article' 
+    }]
 }, {
     timestamps: true
 });
