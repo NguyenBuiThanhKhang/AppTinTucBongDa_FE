@@ -1,6 +1,6 @@
 import {useState} from "react";
 import axiosClient from "@/api/axiosClient.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function LoginPage(){
     const [username,setUsername]= useState("");
@@ -46,8 +46,11 @@ function LoginPage(){
             <input type="password" placeholder="Mật khẩu..." id="password"
             name="password" onChange={(e)=>setPassword(e.target.value)}/>
             <button className="btn-login" onClick={login}> Đăng nhập</button>
+            <Link to={"/register"} style={{textDecoration:"none"}}>
+                <p style={{color:"black"}}>Bạn chưa có tài khoản?Đăng ký</p>
+            </Link>
             <p className="status">
-                {statusLogin}
+            {statusLogin}
             </p>
         </div>
     )
