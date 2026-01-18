@@ -1,10 +1,12 @@
 import {useState} from "react";
 import axiosClient from "../../api/axiosClient.ts";
+import {useNavigate} from "react-router-dom";
 
 function RateInput() {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [isRated,setIsRated] = useState(false);
+    const na = useNavigate();
     if (isRated) return;
     const classStatusYes = "fa-solid fa-circle-check"
     const classStatusNo= "fa-regular fa-circle"
@@ -12,8 +14,16 @@ function RateInput() {
         if(rating === null){
             return;
         }
-        const userID = localStorage.getItem("userId")?localStorage.getItem("userId"):"69553a1208bf5338271fdd02";
-        const articleID = localStorage.getItem("articleId")?localStorage.getItem("articleId"):"6953e810d09bb242d4281930";
+        const userID = localStorage.getItem("userId");
+        if(!userID){
+            na("/login")
+            return;
+        }
+        const articleID = localStorage.getItem("articleId");
+        if(!articleID){
+            alert("Lỗi không tìm thấy bài viết")
+            return;
+        }
         try {
             const rateData={
                 idArticle: articleID,
@@ -50,7 +60,7 @@ function RateInput() {
             </div>
             <div className="btn-confirm">
                 <p>Bạn đang chọn: {rating} sao</p>
-                <button className={"btn btn-success"} onClick={sendRate}>Gửi đánh giá</button>
+                <button className={"btn-sub btn-success"} onClick={sendRate}>Gửi đánh giá</button>
                 <i className=" status-send-rate fa-regular fa-circle"></i>
             </div>
         </div>

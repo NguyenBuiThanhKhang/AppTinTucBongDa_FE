@@ -1,14 +1,24 @@
 import {useState} from "react";
 import axiosClient from "../../api/axiosClient.ts";
+import {useNavigate} from "react-router-dom";
 
 function InputComment(){
     const [commentText, setCommentText] = useState('');
+    const na = useNavigate();
     async function  sendCmt()  {
         if(commentText === null){
             return;
         }
-        const userID = localStorage.getItem("userId")?localStorage.getItem("userId"):"69553a1208bf5338271fdd02";
-        const articleID = localStorage.getItem("articleId")?localStorage.getItem("articleId"):"6953e810d09bb242d4281930";
+        const userID = localStorage.getItem("userId");
+        if(!userID){
+            na("/login")
+            return;
+        }
+        const articleID = localStorage.getItem("articleId");
+        if(!articleID){
+            alert("Lỗi không tìm thấy bài viết")
+            return;
+        }
         try {
             const commentData={
                 idArticle: articleID,
@@ -31,7 +41,7 @@ function InputComment(){
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
             />
-            <button className={"btn"} onClick={sendCmt}>Gửi</button>
+            <button className={"btn-sub"} onClick={sendCmt}>Gửi</button>
         </div>
     )
 }
